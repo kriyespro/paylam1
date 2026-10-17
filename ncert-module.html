@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCERT Module | THE BASICS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #f0f4f8;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #f59e0b;
+            --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            --font-main: 'Outfit', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; }
+
+        header {
+            position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-glass);
+            padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .header-left { font-size: 1.4rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .global-search { background: rgba(0,0,0,0.03); border: 1px solid var(--border-glass); padding: 8px 15px; border-radius: 20px; width: 300px; outline: none; }
+        
+        .container { display: flex; max-width: 1600px; margin: 0 auto; gap: 30px; padding: 30px; }
+        
+        /* Left Sidebar: Filters */
+        .sidebar { width: 300px; flex-shrink: 0; }
+        .filter-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px; padding: 25px; box-shadow: var(--card-shadow); position: sticky; top: 100px; }
+        .filter-title { font-weight: 700; margin-bottom: 20px; font-size: 1.2rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        
+        .filter-group { margin-bottom: 20px; }
+        .filter-label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; font-family: var(--font-ui); }
+        .filter-select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-glass); background: white; color: var(--text-main); outline: none; font-family: var(--font-ui); cursor: pointer; transition: all 0.2s; }
+        .filter-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        
+        /* Main Question Area */
+        .main-content { flex-grow: 1; min-width: 0; }
+        
+        .question-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px; padding: 40px; box-shadow: var(--card-shadow); margin-bottom: 30px; }
+        .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-glass); }
+        
+        .badges-wrapper { display: flex; flex-wrap: wrap; gap: 10px; }
+        .badge { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; font-family: var(--font-ui); display: flex; align-items: center; gap: 5px; }
+        .badge-year { background: rgba(59, 130, 246, 0.1); color: #2563eb; }
+        .badge-subject { background: rgba(139, 92, 246, 0.1); color: #7c3aed; }
+        .badge-topic { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+        .badge-diff { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+        
+        .timer-wrapper { text-align: right; }
+        .q-timer { font-family: monospace; font-size: 1.5rem; font-weight: 700; color: var(--primary); background: rgba(59, 130, 246, 0.05); padding: 8px 15px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2); letter-spacing: 1px; }
+        .timer-controls { margin-top: 5px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; }
+        
+        .q-number { font-size: 0.9rem; color: var(--text-muted); font-weight: 700; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
+        .q-text { font-size: 1.25rem; line-height: 1.7; margin-bottom: 30px; font-family: var(--font-ui); color: #0f172a; }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .option-btn { background: white; border: 2px solid var(--border-glass); padding: 18px 25px; border-radius: 15px; font-size: 1.05rem; color: var(--text-main); text-align: left; cursor: pointer; display: flex; align-items: center; transition: all 0.2s; font-family: var(--font-ui); position: relative; overflow: hidden; }
+        .option-btn:hover:not(:disabled) { border-color: #cbd5e1; background: #f8fafc; transform: translateY(-2px); }
+        .option-btn.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.05); }
+        .option-btn.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
+        .option-btn.incorrect { border-color: var(--danger); background: rgba(239, 68, 68, 0.05); }
+        
+        .opt-letter { width: 35px; height: 35px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: 700; font-size: 0.9rem; color: #475569; transition: all 0.2s; }
+        .selected .opt-letter { background: var(--primary); color: white; }
+        .correct .opt-letter { background: var(--success); color: white; }
+        .incorrect .opt-letter { background: var(--danger); color: white; }
+        
+        .q-actions { display: flex; gap: 15px; align-items: center; }
+        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; border: none; font-family: var(--font-main); font-size: 1rem; }
+        .btn-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
+        .btn-outline { background: white; border: 1px solid #cbd5e1; color: var(--text-main); }
+        .btn-outline:hover { background: #f1f5f9; }
+        
+        /* Explanation & Results */
+        .result-bar { display: none; padding: 20px; border-radius: 15px; margin-top: 30px; font-family: var(--font-ui); display: flex; justify-content: space-between; align-items: center; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .explanation-box { display: none; background: white; padding: 30px; border-radius: 15px; border: 1px solid var(--border-glass); margin-top: 25px; font-family: var(--font-ui); }
+        .exp-header { font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 10px; padding-bottom: 15px; border-bottom: 1px solid var(--border-glass); }
+        .exp-content { line-height: 1.8; color: #334155; margin-bottom: 20px; }
+        
+        /* Right Sidebar: Analytics */
+        .analytics-panel { width: 320px; flex-shrink: 0; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px; padding: 25px; box-shadow: var(--card-shadow); margin-bottom: 20px; text-align: center; }
+        .stat-value { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 10px 0; font-family: var(--font-ui); }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .progress-list { text-align: left; margin-top: 20px; }
+        .progress-item { margin-bottom: 15px; }
+        .p-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+        .p-fill { height: 100%; background: var(--success); border-radius: 4px; }
+        
+        .mode-box {
+            background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 15px;
+            padding: 20px 30px; text-align: center; cursor: pointer; transition: all 0.2s;
+            font-family: var(--font-ui); font-weight: 600; color: var(--text-muted); flex: 1;
+        }
+        .mode-box:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .mode-box.active { background: rgba(59, 130, 246, 0.1); border-color: var(--primary); color: var(--primary); }
+        
+        .q-navigation { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 10px; scrollbar-width: thin; }
+        .q-nav-item { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border: 1px solid var(--border-glass); font-weight: 600; cursor: pointer; flex-shrink: 0; transition: all 0.2s; font-family: var(--font-ui); }
+        .q-nav-item:hover { transform: translateY(-2px); }
+        .q-nav-item.active { background: var(--text-main); color: white; border-color: var(--text-main); }
+        .q-nav-item.correct { background: var(--success); color: white; border-color: var(--success); }
+        .q-nav-item.incorrect { background: var(--danger); color: white; border-color: var(--danger); }
+        .q-nav-item.skipped { background: var(--warning); color: white; border-color: var(--warning); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left"><i class="fas fa-book-open"></i> NCERT Base Module</div>
+        <div>
+            <a href="prelims.html" class="btn btn-outline" style="text-decoration: none;">Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container" id="mainContainer" style="justify-content: center;">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar" id="filterSidebar">
+            <div id="modeSelection" style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">
+                <div class="mode-box active" onclick="selectMode('practice')">
+                    <i class="fas fa-dumbbell" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>
+                    Practice
+                </div>
+                <div class="mode-box" onclick="selectMode('test')">
+                    <i class="fas fa-stopwatch" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>
+                    Test
+                </div>
+            </div>
+            
+            <div class="filter-card">
+                <div class="filter-title"><i class="fas fa-filter"></i> Dynamic Filters</div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Subject</label>
+                    <select class="filter-select" id="subjectFilter" onchange="updateTopics()">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Topic</label>
+                    <select class="filter-select" id="topicFilter">
+                        <option>All Topic</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Question Bank</label>
+                    <select class="filter-select" id="questionBankFilter">
+                        <option value="All">All</option>
+                        <option value="PYQ">PYQ</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">No. of Questions</label>
+                    <select class="filter-select" id="numQuestionsFilter">
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="all">All Available in Topic</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Question Type</label>
+                    <select class="filter-select">
+                        <option>All</option>
+                        <option>Unattempted</option>
+                        <option>Attempted</option>
+                        <option>Previously Incorrect</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" id="startBtn" style="width: 100%; justify-content: center;" onclick="startSession()"><i class="fas fa-play"></i> Start Practice</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainArea" style="display: none;">
+            <div class="q-navigation" id="qNav">
+                <!-- Populated by JS -->
+            </div>
+            
+            <div class="question-card" id="mainQuestionCard">
+                <div class="q-header">
+                    <div class="responsive-flex-row">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px;">
+                            <div class="q-number" id="qId" style="margin-bottom: 0;">NCERT ID: #84920</div>
+                            <button class="icon-btn" id="bookmarkBtn" onclick="toggleBookmark()" title="Bookmark Question"><i class="far fa-bookmark"></i></button>
+                        </div>
+                        <div class="badges-wrapper" id="qBadges">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <div class="timer-wrapper">
+                        <div class="q-timer" id="timerDisplay">00:00</div>
+                        <div class="timer-controls" onclick="toggleTimer()" id="timerToggleBtn"><i class="fas fa-pause"></i> Pause Timer</div>
+                    </div>
+                </div>
+
+                <div class="q-text" id="qText">
+                    Loading question...
+                </div>
+
+                <div class="options-grid" id="qOptions">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="q-actions">
+                    <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()" disabled>Submit Answer</button>
+                    <button class="btn btn-outline" id="skipBtn" onclick="skipQuestion()">Skip</button>
+                    <button class="btn btn-outline" style="margin-left: auto;" onclick="nextQuestion()">Next Question <i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Result Bar -->
+                <div class="result-bar" id="resultBar" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div id="resultIcon" style="font-size: 2rem;"></div>
+                        <div>
+                            <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 5px;" id="resultTitle">Result</div>
+                            <div style="color: #475569; font-size: 0.95rem;">Time Taken: <span id="timeTakenVal" style="font-weight: 600;"></span></div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: var(--primary); font-weight: 800; font-size: 1.2rem;">+<span id="xpEarned">0</span> XP</div>
+                        <div style="color: var(--warning); font-weight: 600;">+<span id="coinsEarned">0</span> Coins</div>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="explanation-box" id="explanationBox">
+                    <div class="exp-header"><i class="fas fa-book-open"></i> Complete Explanation</div>
+                    <div class="exp-content" id="expContent"></div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Right Sidebar Analytics -->
+        <aside class="analytics-panel" id="analyticsArea" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-label">Session Accuracy</div>
+                <div class="stat-value" id="sessionAcc">0%</div>
+                <div style="color: var(--text-muted); font-size: 0.85rem;"><span style="color: var(--success);"><i class="fas fa-arrow-up"></i> +5%</span> vs Last Week</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Questions Solved</div>
+                <div class="stat-value" style="color: #10b981;" id="qSolved">0</div>
+                
+                <div class="progress-list">
+                    <div class="progress-item">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; font-family: var(--font-ui);">
+                            <span>Attempted</span> <span id="qAttempted">0</span>
+                        </div>
+                        <div class="p-bar"><div class="p-fill" id="barAttempted" style="width: 0%; background: var(--primary);"></div></div>
+                    </div>
+                    <div class="progress-item">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; font-family: var(--font-ui);">
+                            <span>Skipped</span> <span id="qSkipped">0</span>
+                        </div>
+                        <div class="p-bar"><div class="p-fill" id="barSkipped" style="width: 0%; background: var(--warning);"></div></div>
+                    </div>
+                    <div class="progress-item">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; font-family: var(--font-ui);">
+                            <span>Unattempted</span> <span id="qUnattempted">0</span>
+                        </div>
+                        <div class="p-bar"><div class="p-fill" id="barUnattempted" style="width: 100%; background: #cbd5e1;"></div></div>
+                    </div>
+                    <div class="progress-item">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; font-family: var(--font-ui);">
+                            <span>Correct</span> <span id="qCorrect">0</span>
+                        </div>
+                        <div class="p-bar"><div class="p-fill" id="barCorrect" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="progress-item">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; font-family: var(--font-ui);">
+                            <span>Incorrect</span> <span id="qIncorrect">0</span>
+                        </div>
+                        <div class="p-bar"><div class="p-fill" id="barIncorrect" style="width: 0%; background: var(--danger);"></div></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Complex JavaScript Logic for Enterprise Features -->
+    <script>
+        // --- 1. DYNAMIC DATA STRUCTURES ---
+        
+        // 12 Subjects exactly as requested
+                                                                const databaseMap = {
+            "History & Culture": ["Pre-Historic Time", "Indus Valley Civilization", "Vedic Age", "Mahajanapadas", "Mauryan Empire", "Post-Mauryan Period", "Gupta Empire", "Harsha Empire", "Sangam Age", "South Indian Kingdoms", "Ancient Religions", "Ancient Art & Architecture", "Palas", "Pratiharas", "Rashtrakutas", "Delhi Sultanate", "Vijayanagara Empire", "Bahmani Kingdom", "Mughal Empire", "Marathas", "Bhakti Movement", "Sufi Movement", "Medieval Architecture", "Advent of Europeans", "Consolidation of British Power", "Revolt of 1857", "Social & Religious Reforms", "INC Formation", "Gandhian Era", "Revolutionary Movement", "Constitutional Development", "Partition & Independence", "Introduction", "Art & Architecture", "Temple Architecture", "Cave Architecture", "Paintings", "Sculpture", "Music", "Dance", "Theatre", "Puppetry", "UNESCO Heritage", "Festivals", "Literature", "Religion & Philosophy", "Handicrafts", "Industrial Revolution", "French Revolution", "American Revolution", "Russian Revolution", "Unification of Germany", "Unification of Italy", "World War I", "World War II", "Cold War", "Decolonization"],
+            "Geography": ["Physical Setting of India", "Major Physical Division of India", "Drainage System", "Indian Climate", "Indian Monsoon", "Indian Soils", "Land Resource in India", "Mineral Resource", "Energy Resources", "Forest", "Agriculture", "Manufacturing and Services", "Transport", "Communication", "Hazards and Disasters", "Population and Settlement", "Universe: Origin and Evolution", "Movement of Earth", "Earth's Internal Structure", "Tectonics", "Rocks", "Landforms", "Soil", "Atmosphere", "Hydrological Cycle", "Weather Phenomenon", "Ocean", "Climate Regions of The world", "Oceans", "Continents", "World Economic Geography", "World Human Geography"],
+            "Indian Polity": ["Historical Background", "Concept and Salient Features of the Constitution", "Preamble of the Constitution", "Union and Its Territory", "Citizenship", "Fundamental Rights", "Directive Principles of State Policy", "Fundamental Duties", "Union Executive", "Parliament", "Parliamentary Committees", "State Executive", "State Legislature", "Union Territories and Special Areas", "Supreme Court", "High Court", "Subordinate Courts", "Alternative Dispute Resolution Courts", "Tribunals", "Judicial Review", "Basic Structure", "Basics of Federal System", "Centre-State Relations", "Inter-State Relations", "Panchayati Raj", "Urban Local Bodies", "Elections", "Political Dynamics", "Emergency Provisions", "Amendment of the Constitution", "Other Constitutional Dimensions", "Constitutional Bodies", "Non-Constitutional Bodies", "Constituents of Indian Constitution", "Laws and Legislations"],
+            "Economy": ["Introduction to Economics", "National Income Accounting", "Money, Banking and Monetary Policy", "Finance and Financial Markets", "Public Finance in India", "Taxation in India", "Inflation", "Unemployment", "Poverty", "Agriculture and Allied Activities", "Food Processing", "Industry and Manufacturing", "Infrastructure and Investment Models in India", "Services and Digital Economy", "Trade and External Sector", "Planning and Reform", "International Institutions", "Sustainable and Inclusive Growth"],
+            "Environment & Ecology": ["Ecology", "Functions of Ecosystem", "Terrestrial Ecosystem", "Aquatic Ecosystem", "Wet Land Ecosystem", "Environmental Pollution", "Renewable Energy", "Environmental Impact Assessment (EIA)", "Biodiversity Basics", "Indian Biodiversity \u2013 Diverse Landscape", "Schedule Animals of WPA 1972", "Animal Diversity of India", "Plant Diversity of India", "Marine Organisms", "Protected Area Network", "Conservation Efforts", "Climate Change", "Ocean Acidification", "Ozone Depletion", "Impact of Climate Change", "Mitigation Strategies"],
+            "Science & Tech": ["Space Technology", "Biotechnology", "Information Technology", "Nanotechnology", "Defense Technology", "Health and Diseases", "Energy Sector", "Robotics and AI"],
+            "Social Issue Scheme": ["Related to Vulnerable Sections", "Related to Human Development and Dignity", "Related to Society and Its Fabric", "Types of Schemes", "Agriculture and Allied Sector", "Economy and Finance", "Environment", "Governance", "Health and Welfare", "Human Development", "Industry and Energy", "Infrastructure and Communication", "Science and Technology"],
+            "Int. Relation": ["Basics of International Relations", "Evolution of India's Foreign Policy", "Events and Developments in Foreign Nations", "India and its Neighbourhood Relations", "India and Africa Relations", "India and Central Asia Relations", "India and Europe Relations", "India and Indo-Pacific Relations", "India and South East Asia Relations", "India and West Asia Relations", "India and Latin America-Caribbean Relations", "India and Russia Relations", "India and USA Relations", "Relations with Other Countries", "The United Nations", "Multilateral Groupings", "Regional Groupings", "Indian Diaspora"],
+            "Governance": ["Governance: Concepts and Framework", "Transparency and Accountability", "Development Processes and Stakeholders", "Pressure Groups and Civil Society", "Role of Civil Services in a Democracy"],
+            "Disaster Mgmt": ["Foundations of Disaster Management", "Specific Disasters and Hazard-wise Management", "Institutional and Legal Framework", "Enabling Mechanisms in Disaster Management"],
+            "Internal Security": ["Internal Security Challenges", "Insurgency, Radicalisation and Terrorism", "External and Border Threats", "Cybercrime and Information Security", "Economic and Financial Security", "Security Forces and Intelligence"],
+            "Ethics": ["Introduction to Ethics and Moral Philosophy", "Ethics and Human Interface", "Human Values and Socialisation", "Attitude and Behaviour", "Emotional Intelligence", "Foundational Values for Civil Services", "Aptitude and Civil Service Ethics", "Ethics in Public Administration and Governance", "Probity in Governance", "Corporate and Economic Ethics", "Thinkers and Philosophical Foundations", "Case Studies and Ethical Application Frameworks"],
+        };
+
+        
+
+        const difficultyScale = ["Very Easy", "Easy", "Medium", "Medium", "Hard", "Hard", "Advanced", "Advanced", "UPSC Level", "Expected PYQ"];
+        
+        let questionList = [];
+        let currentQuestionIndex = 0;
+
+        function initQuestions() {
+            const qBank = document.getElementById("questionBankFilter");
+            if (qBank && qBank.value === "PYQ") {
+                questionList = [...window.API.getPYQs()];
+            } else {
+                questionList = [...window.API.getMCQs()];
+            }
+        }
+
+        // --- 2. INITIALIZATION LOGIC ---
+        
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let timerRunning = false;
+        let selectedOption = null;
+        let isSubmitted = false;
+        
+        // Analytics State
+        let stats = { solved: 0, attempted: 0, skipped: 0, unattempted: 0, correct: 0, incorrect: 0, totalTime: 0 };
+
+                window.onload = () => {
+                        initSubjectFilter();
+        }
+        
+        function selectMode(mode) {
+            const boxes = document.querySelectorAll('.mode-box');
+            boxes.forEach(box => box.classList.remove('active'));
+            if (mode === 'practice') {
+                boxes[0].classList.add('active');
+                document.getElementById('startBtn').innerHTML = '<i class="fas fa-play"></i> Start Practice';
+            } else {
+                boxes[1].classList.add('active');
+                document.getElementById('startBtn').innerHTML = '<i class="fas fa-play"></i> Start Test';
+            }
+        }
+        
+                function startSession() {
+            const subjSelect = document.getElementById("subjectFilter");
+            if (subjSelect && (subjSelect.value === "All Subject" || subjSelect.value === "")) {
+                alert("Please select a Subject before starting.");
+                return;
+            }
+            
+            const topicSelect = document.getElementById("topicFilter");
+            if (topicSelect && (topicSelect.value === "All Topic" || topicSelect.value === "Select Chapter" || topicSelect.value === "")) {
+                alert("Please select a Topic before starting.");
+                return;
+            }
+
+            document.getElementById('mainArea').style.display = 'block';
+            document.getElementById('analyticsArea').style.display = 'block';
+            document.getElementById('filterSidebar').style.display = 'none'; // Hide filters completely
+            document.getElementById('mainContainer').style.justifyContent = 'flex-start';
+            resetToPYQ();
+        }
+        
+        function initSubjectFilter() {
+            const subjSelect = document.getElementById("subjectFilter");
+            if (!subjSelect) return;
+            subjSelect.innerHTML = "<option>All Subject</option>";
+            if (typeof databaseMap !== 'undefined') {
+                for (let subj in databaseMap) {
+                    let opt = document.createElement("option");
+                    opt.value = subj;
+                    opt.innerText = subj;
+                    subjSelect.appendChild(opt);
+                }
+            }
+        }
+
+        function updateTopics() {
+            const subj = document.getElementById("subjectFilter").value;
+            const topicSelect = document.getElementById("topicFilter");
+            if (!topicSelect) return;
+            topicSelect.innerHTML = "<option>All Topic</option>";
+            
+            if(typeof databaseMap !== 'undefined' && databaseMap[subj]) {
+                databaseMap[subj].forEach(topic => {
+                    let opt = document.createElement("option");
+                    opt.value = topic;
+                    opt.innerText = topic;
+                    topicSelect.appendChild(opt);
+                });
+            }
+        }
+
+        // --- 3. QUESTION WORKFLOW ---
+
+        function resetToPYQ() {
+            initQuestions();
+            // Reset statuses
+            questionList.forEach(q => q.status = null);
+            currentQuestionIndex = 0;
+            stats = { solved: 0, attempted: 0, skipped: 0, unattempted: questionList.length, correct: 0, incorrect: 0, totalTime: 0 };
+            loadQuestion(currentQuestionIndex);
+            updateAnalyticsUI();
+        }
+
+        function nextQuestion() {
+            if (!isSubmitted) {
+                // Treat as skipped if not submitted
+                skipQuestion();
+                return;
+            }
+            goToQuestion(currentQuestionIndex + 1);
+        }
+
+        function skipQuestion() {
+            if (isSubmitted) return;
+            const currentQ = questionList[currentQuestionIndex];
+            currentQ.status = 'skipped';
+            isSubmitted = true;
+            
+            stats.skipped++;
+            stats.unattempted = Math.max(0, stats.unattempted - 1);
+            
+            pauseTimer();
+            updateAnalyticsUI();
+            renderQNav();
+            goToQuestion(currentQuestionIndex + 1);
+        }
+        
+        function goToQuestion(idx) {
+            if (idx < questionList.length) {
+                currentQuestionIndex = idx;
+                loadQuestion(idx);
+            } else {
+                alert("You have completed all variations for this PYQ!");
+                updateAnalyticsUI();
+            }
+        }
+
+        function renderQNav() {
+            const nav = document.getElementById('qNav');
+            nav.innerHTML = '';
+            questionList.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'q-nav-item';
+                if (idx === currentQuestionIndex) div.classList.add('active');
+                
+                if (q.status === 'correct') div.classList.add('correct');
+                else if (q.status === 'incorrect') div.classList.add('incorrect');
+                else if (q.status === 'skipped') div.classList.add('skipped');
+                
+                div.innerText = idx + 1;
+                div.onclick = () => {
+                    // Only allow navigating to previously visited or next question
+                    if (q.status || idx === currentQuestionIndex || (idx > 0 && questionList[idx-1].status)) {
+                        goToQuestion(idx);
+                    }
+                };
+                nav.appendChild(div);
+            });
+            
+            const activeItem = nav.querySelector('.active');
+            if (activeItem) {
+                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        
+        function toggleBookmark() {
+            const currentQ = questionList[currentQuestionIndex];
+            const isBookmarked = window.StorageManager.toggleBookmark(currentQ.id);
+            const btn = document.getElementById('bookmarkBtn');
+            if(isBookmarked) {
+                btn.innerHTML = '<i class="fas fa-bookmark" style="color: var(--primary);"></i>';
+            } else {
+                btn.innerHTML = '<i class="far fa-bookmark"></i>';
+            }
+        }
+
+        function loadQuestion(index) {
+            const currentQ = questionList[index];
+            
+            renderQNav();
+            
+            // Reset UI
+            isSubmitted = false;
+            selectedOption = null;
+            document.getElementById('resultBar').style.display = 'none';
+            document.getElementById('explanationBox').style.display = 'none';
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Populate ID
+            document.getElementById('qId').innerText = (index === 0) ? `NCERT ID: #${currentQ.id}` : `AI ID: #${currentQ.id}`;
+
+            
+            // Set Bookmark State
+            if (window.StorageManager && window.StorageManager.isBookmarked(currentQ.id)) {
+                document.getElementById('bookmarkBtn').innerHTML = '<i class="fas fa-bookmark" style="color: var(--primary);"></i>';
+            } else {
+                document.getElementById('bookmarkBtn').innerHTML = '<i class="far fa-bookmark"></i>';
+            }
+
+            // Populate Badges
+            document.getElementById('qBadges').innerHTML = `
+                <span class="badge badge-year" ${index !== 0 ? 'style="background: rgba(139, 92, 246, 0.1); color: #7c3aed;"' : ''}><i class="far fa-calendar"></i> ${currentQ.year}</span>
+                <span class="badge badge-subject"><i class="fas fa-book"></i> ${currentQ.subject}</span>
+                <span class="badge badge-topic"><i class="fas fa-crosshairs"></i> ${currentQ.topic}</span>
+                <span class="badge badge-diff"><i class="fas fa-fire"></i> ${currentQ.difficulty}</span>
+                <span class="badge" style="background: rgba(100,116,139,0.1); color: #475569;"><i class="far fa-clock"></i> Est: ${currentQ.estTime}</span>
+            `;
+            
+            // Populate Text & Options
+            document.getElementById('qText').innerHTML = currentQ.question;
+            const optionsDiv = document.getElementById('qOptions');
+            optionsDiv.innerHTML = '';
+            
+            const letters = ['A', 'B', 'C', 'D'];
+            currentQ.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.id = `opt_${idx}`;
+                btn.innerHTML = `<div class="opt-letter">${letters[idx]}</div> <div>${opt}</div>`;
+                btn.onclick = () => selectOption(idx);
+                optionsDiv.appendChild(btn);
+            });
+
+            // Check if already answered/skipped
+            if (currentQ.status) {
+                isSubmitted = true;
+                pauseTimer();
+                if (currentQ.status !== 'skipped') {
+                    document.getElementById('resultBar').style.display = 'flex';
+                    document.getElementById('explanationBox').style.display = 'block';
+                    document.getElementById('expContent').innerHTML = currentQ.explanation;
+                }
+            } else {
+                startTimer();
+            }
+        }
+
+        function selectOption(idx) {
+            if (isSubmitted) return;
+            selectedOption = idx;
+            
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach((btn, i) => {
+                if (i === idx) btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+            
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitAnswer() {
+            if (selectedOption === null || isSubmitted) return;
+            
+            const currentQ = questionList[currentQuestionIndex];
+            isSubmitted = true;
+            pauseTimer();
+            
+            const isCorrect = (selectedOption === currentQ.correctIndex);
+            
+            // Update Options Styling
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(btn => btn.disabled = true); // lock options
+            
+            options[currentQ.correctIndex].classList.add('correct');
+            options[currentQ.correctIndex].classList.remove('selected');
+            
+            if (!isCorrect) {
+                options[selectedOption].classList.add('incorrect');
+                options[selectedOption].classList.remove('selected');
+            }
+
+            // Update Analytics
+            stats.solved++;
+            stats.attempted++;
+            stats.unattempted = Math.max(0, stats.unattempted - 1);
+            if (isCorrect) {
+                stats.correct++;
+                currentQ.status = 'correct';
+            } else {
+                stats.incorrect++;
+                currentQ.status = 'incorrect';
+            }
+            stats.totalTime += timerSeconds;
+            
+            updateAnalyticsUI();
+            renderQNav();
+
+            // Show Result Bar
+            const resBar = document.getElementById('resultBar');
+            const resIcon = document.getElementById('resultIcon');
+            const resTitle = document.getElementById('resultTitle');
+            
+            resBar.style.display = 'flex';
+            document.getElementById('timeTakenVal').innerText = formatTime(timerSeconds);
+            
+            if (isCorrect) {
+                resBar.style.background = 'rgba(16, 185, 129, 0.1)';
+                resBar.style.border = '1px solid var(--success)';
+                resIcon.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success);"></i>';
+                resTitle.innerText = "Excellent! Correct Answer";
+                resTitle.style.color = "var(--success)";
+                document.getElementById('xpEarned').innerText = "50";
+                document.getElementById('coinsEarned').innerText = "15";
+            } else {
+                resBar.style.background = 'rgba(239, 68, 68, 0.1)';
+                resBar.style.border = '1px solid var(--danger)';
+                resIcon.innerHTML = '<i class="fas fa-times-circle" style="color: var(--danger);"></i>';
+                resTitle.innerText = "Incorrect Answer";
+                resTitle.style.color = "var(--danger)";
+                document.getElementById('xpEarned').innerText = "10";
+                document.getElementById('coinsEarned').innerText = "5";
+            }
+
+            // Show Explanation
+            document.getElementById('explanationBox').style.display = 'block';
+            document.getElementById('expContent').innerHTML = currentQ.explanation;
+        }
+
+        // --- 4. TIMER LOGIC ---
+
+        function startTimer() {
+            timerSeconds = 0;
+            updateTimerDisplay();
+            timerRunning = true;
+            document.getElementById('timerToggleBtn').innerHTML = '<i class="fas fa-pause"></i> Pause Timer';
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('timerToggleBtn').innerHTML = '<i class="fas fa-play"></i> Resume';
+        }
+
+        function toggleTimer() {
+            if(isSubmitted) return;
+            if(timerRunning) pauseTimer();
+            else {
+                timerRunning = true;
+                document.getElementById('timerToggleBtn').innerHTML = '<i class="fas fa-pause"></i> Pause Timer';
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+            }
+        }
+
+        function updateTimerDisplay() {
+            document.getElementById('timerDisplay').innerText = formatTime(timerSeconds);
+        }
+
+        function formatTime(secs) {
+            let m = Math.floor(secs / 60).toString().padStart(2, '0');
+            let s = (secs % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        // --- 5. ANALYTICS ---
+
+        function updateAnalyticsUI() {
+            document.getElementById('qSolved').innerText = stats.solved;
+            document.getElementById('qAttempted').innerText = stats.attempted;
+            document.getElementById('qSkipped').innerText = stats.skipped;
+            document.getElementById('qUnattempted').innerText = stats.unattempted;
+            document.getElementById('qCorrect').innerText = stats.correct;
+            document.getElementById('qIncorrect').innerText = stats.incorrect;
+            
+            let total = questionList.length;
+            let acc = stats.attempted > 0 ? Math.round((stats.correct / stats.attempted) * 100) : 0;
+            document.getElementById('sessionAcc').innerText = `${acc}%`;
+            
+            let pAtt = (stats.attempted / total) * 100;
+            let pSkip = (stats.skipped / total) * 100;
+            let pUnatt = (stats.unattempted / total) * 100;
+            let pCorr = stats.attempted > 0 ? (stats.correct / stats.attempted) * 100 : 0;
+            let pIncorr = stats.attempted > 0 ? (stats.incorrect / stats.attempted) * 100 : 0;
+            
+            document.getElementById('barAttempted').style.width = `${pAtt}%`;
+            document.getElementById('barSkipped').style.width = `${pSkip}%`;
+            document.getElementById('barUnattempted').style.width = `${pUnatt}%`;
+            document.getElementById('barCorrect').style.width = `${pCorr}%`;
+            document.getElementById('barIncorrect').style.width = `${pIncorr}%`;
+        }
+    </script>
+    <script src="storage.js"></script>
+    <script src="api.js"></script>
+    <script>
+
+            if (typeof initYearFilter === 'function')         });
+
+        
+        }
+
+        
+                function initSubjectFilter() {
+            const subjSelect = document.getElementById("subjectFilter");
+            if (!subjSelect) return;
+            subjSelect.innerHTML = "<option>All Subject</option>";
+            if (typeof databaseMap !== 'undefined') {
+                for (let subj in databaseMap) {
+                    let opt = document.createElement("option");
+                    opt.value = subj;
+                    opt.innerText = subj;
+                    subjSelect.appendChild(opt);
+                }
+            }
+        }
+
+        function updateTopics() {
+            const subj = document.getElementById("subjectFilter").value;
+            const topicSelect = document.getElementById("topicFilter");
+            if (!topicSelect) return;
+            topicSelect.innerHTML = "<option>All Topic</option>";
+            
+            if(typeof databaseMap !== 'undefined' && databaseMap[subj]) {
+                databaseMap[subj].forEach(topic => {
+                    let opt = document.createElement("option");
+                    opt.value = topic;
+                    opt.innerText = topic;
+                    topicSelect.appendChild(opt);
+                });
+            }
+        }</option>`;
+            
+            if (databaseMap[subj]) {
+                databaseMap[subj].forEach(topic => {
+                    let opt = document.createElement("option");
+                    opt.value = topic;
+                    opt.innerText = topic;
+                    topicSelect.appendChild(opt);
+                });
+            }
+        }
+
+        
+        // Initialize filters on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof initSubjectFilter === 'function') initSubjectFilter();
+            if (typeof initYearFilter === 'function')         });
+
+                function initYearFilter() {
+            const currentYear = new Date().getFullYear();
+            const yearSelect = document.getElementById("yearFilter");
+            if (!yearSelect) return;
+            yearSelect.innerHTML = "";
+            for(let y = currentYear; y >= 2013; y--) {
+                let opt = document.createElement("option");
+                opt.value = y;
+                opt.innerText = y;
+                yearSelect.appendChild(opt);
+            }
+        }
+        }
+
+        </script>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

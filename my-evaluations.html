@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Evaluations | THE BASICS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        .page-container { max-width: 900px; margin: 40px auto; padding: 20px; }
+        .eval-card { background: white; border-radius: 12px; padding: 25px; box-shadow: var(--card-shadow); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #10B981; }
+        .eval-info h3 { font-size: 1.1rem; margin-bottom: 5px; color: var(--text-main); }
+        .eval-date { font-size: 0.85rem; color: var(--text-muted); }
+        .eval-score { text-align: right; }
+        .score-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        .score-lbl { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mains.html" class="active"><i class="fas fa-pen-nib"></i> Mains</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="page-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 65vh; text-align: center;">
+        <div style="width: 120px; height: 120px; background: rgba(20, 55, 138, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--primary); margin-bottom: 30px; box-shadow: inset 0 0 20px rgba(20, 55, 138, 0.05);">
+            <i class="fas fa-expand"></i> <!-- Using an icon similar to screenshot -->
+        </div>
+        
+        <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">No evaluations yet</h2>
+        
+        <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 450px; margin-bottom: 35px; line-height: 1.6;">
+            Your answer evaluations will appear here. Take pictures of your answers or attempt DMQ.
+        </p>
+        
+        <a href="daily-mains.html" class="btn-evaluate" style="background: transparent; border: 2px solid var(--primary); color: var(--primary); padding: 12px 40px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s;" onmouseover="this.style.background='var(--primary)'; this.style.color='white'" onmouseout="this.style.background='transparent'; this.style.color='var(--primary)'">Attempt</a>
+    </div>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

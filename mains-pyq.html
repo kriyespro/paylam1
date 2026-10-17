@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mains PYQ Module | THE BASICS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #f0f4f8;
+            --bg-card: rgba(255,255,255,0.9);
+            --border-glass: rgba(0,0,0,0.08);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #f59e0b;
+            --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            --font-main: 'Outfit', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:var(--font-main); }
+        body { background-color:var(--bg-dark); color:var(--text-main); min-height:100vh; }
+        header { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-glass); padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+        .header-left { font-size:1.4rem; font-weight:700; background:var(--primary-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:flex; align-items:center; gap:10px; }
+        .container { display:flex; max-width:1600px; margin:0 auto; gap:30px; padding:30px; }
+        .sidebar { width:300px; flex-shrink:0; }
+        .filter-card { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:20px; padding:25px; box-shadow:var(--card-shadow); position:sticky; top:100px; }
+        .filter-title { font-weight:700; margin-bottom:20px; font-size:1.2rem; color:var(--text-main); display:flex; align-items:center; gap:10px; }
+        .filter-group { margin-bottom:20px; }
+        .filter-label { display:block; font-size:0.9rem; color:var(--text-muted); margin-bottom:8px; font-weight:600; font-family:var(--font-ui); }
+        .filter-select { width:100%; padding:12px; border-radius:12px; border:1px solid var(--border-glass); background:white; color:var(--text-main); outline:none; font-family:var(--font-ui); cursor:pointer; transition:all 0.2s; }
+        .filter-select:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(245,158,11,0.1); }
+        .paper-chips { display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none; }
+        .paper-chips::-webkit-scrollbar { display:none; }
+        .paper-chip { padding:9px 16px; border-radius:20px; font-size:0.82rem; font-weight:700; border:2px solid var(--border-glass); background:white; cursor:pointer; transition:all 0.2s; font-family:var(--font-ui); color:var(--text-muted); white-space:nowrap; flex-shrink:0; letter-spacing:0.3px; }
+        .paper-chip:hover { border-color:var(--primary); color:var(--primary); background:rgba(245,158,11,0.04); }
+        .paper-chip.active { border-color:var(--primary); background:rgba(245,158,11,0.12); color:var(--warning); box-shadow:0 2px 10px rgba(245,158,11,0.2); }
+        .main-content { flex-grow:1; min-width:0; }
+        .question-card { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:20px; padding:40px; box-shadow:var(--card-shadow); margin-bottom:30px; }
+        .q-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:25px; padding-bottom:20px; border-bottom:1px solid var(--border-glass); }
+        .badges-wrapper { display:flex; flex-wrap:wrap; gap:10px; }
+        .badge { padding:5px 12px; border-radius:20px; font-size:0.85rem; font-weight:600; font-family:var(--font-ui); display:flex; align-items:center; gap:5px; }
+        .badge-year { background:rgba(245,158,11,0.1); color:#d97706; }
+        .badge-paper { background:rgba(239,68,68,0.1); color:#dc2626; }
+        .badge-subject { background:rgba(139,92,246,0.1); color:#7c3aed; }
+        .timer-wrapper { text-align:right; }
+        .q-timer { font-family:monospace; font-size:1.5rem; font-weight:700; color:var(--primary); background:rgba(245,158,11,0.05); padding:8px 15px; border-radius:12px; border:1px solid rgba(245,158,11,0.2); letter-spacing:1px; }
+        .timer-controls { margin-top:5px; font-size:0.8rem; color:var(--text-muted); cursor:pointer; }
+        .q-number { font-size:0.9rem; color:var(--text-muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+        .q-text { font-size:1.2rem; line-height:1.8; margin-bottom:30px; font-family:var(--font-ui); color:#0f172a; }
+        .answer-area { background:white; border:2px solid var(--border-glass); border-radius:15px; padding:5px; margin-bottom:25px; transition:all 0.2s; }
+        .answer-area:focus-within { border-color:var(--primary); box-shadow:0 0 0 3px rgba(245,158,11,0.1); }
+        .answer-area textarea { width:100%; min-height:180px; padding:15px; border:none; outline:none; font-family:var(--font-ui); font-size:1rem; line-height:1.7; resize:vertical; color:var(--text-main); background:transparent; border-radius:12px; }
+        .answer-area textarea::placeholder { color:#94a3b8; }
+        .answer-toolbar { display:flex; justify-content:space-between; align-items:center; padding:8px 15px; border-top:1px solid var(--border-glass); font-size:0.85rem; color:var(--text-muted); font-family:var(--font-ui); }
+        .q-actions { display:flex; gap:15px; align-items:center; }
+        .btn { padding:12px 24px; border-radius:12px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s; border:none; font-family:var(--font-main); font-size:1rem; }
+        .btn-primary { background:var(--primary-gradient); color:white; box-shadow:0 4px 15px rgba(245,158,11,0.3); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(245,158,11,0.4); }
+        .btn-outline { background:white; border:1px solid #cbd5e1; color:var(--text-main); }
+        .btn-outline:hover { background:#f1f5f9; }
+        .explanation-box { display:none; background:white; padding:30px; border-radius:15px; border:1px solid var(--border-glass); margin-top:25px; font-family:var(--font-ui); }
+        .exp-header { font-size:1.3rem; font-weight:700; margin-bottom:20px; color:var(--primary); display:flex; align-items:center; gap:10px; padding-bottom:15px; border-bottom:1px solid var(--border-glass); }
+        .exp-content { line-height:1.8; color:#334155; margin-bottom:20px; }
+        .q-navigation { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+        .q-nav-dot { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:0.9rem; cursor:pointer; border:2px solid var(--border-glass); background:white; transition:all 0.2s; font-family:var(--font-ui); }
+        .q-nav-dot:hover { border-color:var(--primary); }
+        .q-nav-dot.current { border-color:var(--primary); background:rgba(245,158,11,0.1); color:var(--warning); }
+        .q-nav-dot.attempted { background:rgba(16,185,129,0.1); border-color:var(--success); color:var(--success); }
+        .q-nav-dot.skipped { background:rgba(239,68,68,0.05); border-color:#fca5a5; color:var(--danger); }
+        .analytics-panel { width:300px; flex-shrink:0; }
+        .stat-card { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:20px; padding:25px; box-shadow:var(--card-shadow); margin-bottom:20px; text-align:center; }
+        .stat-label { font-size:0.85rem; color:var(--text-muted); font-weight:600; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+        .stat-value { font-size:2.5rem; font-weight:800; color:var(--primary); margin:10px 0; font-family:var(--font-ui); }
+        .progress-list { margin-top:15px; display:flex; flex-direction:column; gap:10px; text-align:left; }
+        .p-bar { height:6px; background:#e2e8f0; border-radius:10px; margin-top:4px; overflow:hidden; }
+        .p-fill { height:100%; background:var(--primary); border-radius:10px; transition:width 0.4s; }
+        .mode-box { flex:1; text-align:center; padding:15px 10px; border-radius:15px; border:2px solid var(--border-glass); cursor:pointer; transition:all 0.2s; font-weight:600; font-size:0.95rem; background:white; }
+        .mode-box:hover { border-color:var(--primary); color:var(--warning); }
+        .mode-box.active { border-color:var(--primary); background:rgba(245,158,11,0.08); color:var(--warning); }
+        .icon-btn { background:transparent; border:1.5px solid var(--border-glass); width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s; color:var(--text-muted); font-size:1rem; }
+        .icon-btn:hover { border-color:var(--warning); color:var(--warning); }
+        .icon-btn.bookmarked { color:var(--warning); border-color:var(--warning); background:rgba(245,158,11,0.08); }
+        .marks-pill { display:inline-flex; align-items:center; gap:5px; background:rgba(16,185,129,0.08); color:#059669; border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:4px 12px; font-size:0.85rem; font-weight:600; font-family:var(--font-ui); }
+        /* Top bar */
+        .q-top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+        /* SuperKalam Bookmark button */
+        .sk-bookmark-btn { display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:20px; border:2px solid var(--border-glass); background:white; color:var(--text-muted); cursor:pointer; font-size:0.85rem; font-weight:700; font-family:var(--font-ui); transition:all 0.2s; }
+        .sk-bookmark-btn:hover { border-color:var(--warning); color:var(--warning); }
+        .sk-bookmark-btn.bookmarked { border-color:var(--warning); background:rgba(245,158,11,0.1); color:var(--warning); }
+        /* SuperKalam tabs */
+        .sk-tabs-bar { display:flex; gap:0; border-bottom:2px solid var(--border-glass); margin-bottom:18px; }
+        .sk-tab-btn { flex:1; padding:13px 10px; font-size:0.95rem; font-weight:700; cursor:pointer; border:none; background:transparent; color:var(--text-muted); font-family:var(--font-main); border-bottom:3px solid transparent; margin-bottom:-2px; display:flex; align-items:center; justify-content:center; gap:7px; transition:all 0.2s; }
+        .sk-tab-btn:hover { color:var(--warning); background:rgba(245,158,11,0.04); }
+        .sk-tab-btn.active { color:var(--warning); border-bottom-color:var(--warning); background:rgba(245,158,11,0.06); }
+        .sk-tab-panel { display:none; }
+        .sk-tab-panel.active { display:block; }
+        /* Model Answer quick btn */
+        .sk-model-quick-btn { background:rgba(245,158,11,0.08); color:var(--warning); border:1.5px solid rgba(245,158,11,0.3); font-family:var(--font-main); }
+        .sk-model-quick-btn:hover { background:rgba(245,158,11,0.15); }
+        /* Eval intro */
+        .sk-eval-intro { display:flex; align-items:flex-start; gap:10px; background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.2); border-radius:12px; padding:13px 15px; margin-bottom:16px; font-family:var(--font-ui); font-size:0.88rem; color:var(--text-main); }
+        /* Criteria */
+        .sk-criteria-list { display:flex; flex-direction:column; gap:12px; margin-bottom:16px; }
+        .sk-criterion { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:14px; padding:15px 17px; }
+        .sk-crit-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+        .sk-crit-label { font-weight:700; font-size:0.9rem; color:var(--text-main); display:flex; align-items:center; gap:7px; }
+        .sk-crit-max { font-size:0.8rem; color:var(--text-muted); font-family:var(--font-ui); font-weight:600; }
+        .sk-stars { display:flex; gap:6px; }
+        .sk-star-btn { width:32px; height:32px; border-radius:8px; border:1.5px solid var(--border-glass); background:white; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:var(--text-muted); font-family:var(--font-ui); transition:all 0.15s; }
+        .sk-star-btn:hover, .sk-star-btn.sel { border-color:var(--warning); background:rgba(245,158,11,0.1); color:var(--warning); }
+        .sk-crit-desc { font-size:0.8rem; color:var(--text-muted); font-family:var(--font-ui); margin-top:7px; }
+        /* Total score */
+        .sk-total-row { display:flex; justify-content:space-between; align-items:center; background:linear-gradient(135deg,rgba(245,158,11,0.07),rgba(239,68,68,0.03)); border:1.5px solid rgba(245,158,11,0.25); border-radius:12px; padding:14px 18px; margin-bottom:14px; font-weight:700; font-family:var(--font-ui); }
+        .sk-total-score { font-size:1.5rem; font-weight:800; color:var(--warning); font-family:var(--font-ui); }
+        .sk-notes-area { width:100%; padding:13px; border:1.5px solid var(--border-glass); border-radius:12px; font-family:var(--font-ui); font-size:0.9rem; resize:vertical; min-height:80px; outline:none; transition:border 0.2s; }
+        .sk-notes-area:focus { border-color:var(--warning); }
+        /* Model card */
+        .sk-model-card { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:16px; overflow:hidden; }
+        .sk-model-header { background:linear-gradient(135deg,#f59e0b,#ef4444); padding:18px 20px; color:white; display:flex; align-items:center; gap:12px; font-size:1.3rem; }
+        .sk-model-meta { font-size:0.82rem; opacity:0.9; margin-top:3px; font-family:var(--font-ui); }
+        .sk-model-body { padding:22px; line-height:1.85; color:#334155; font-family:var(--font-ui); font-size:0.96rem; }
+        .sk-model-body p { margin-bottom:12px; }
+        .sk-model-body strong { color:var(--text-main); }
+        
+        /* Upload Area */
+        .upload-zone { border:2px dashed var(--border-glass); border-radius:14px; padding:30px; text-align:center; cursor:pointer; transition:all 0.3s; margin-bottom:16px; position:relative; background:white; }
+        .upload-zone:hover, .upload-zone.drag-over { border-color:var(--warning); background:rgba(245,158,11,0.05); }
+        .upload-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+        .upload-zone i { font-size:2.5rem; color:var(--warning); margin-bottom:10px; display:block; }
+        .upload-zone h4 { font-size:1rem; font-weight:700; color:var(--text-main); margin-bottom:5px; }
+        .upload-zone p { font-size:0.85rem; color:var(--text-muted); font-family:var(--font-ui); }
+        #uploadPreview { display:none; max-width:100%; border-radius:10px; margin-top:10px; }
+        .or-divider { display:flex; align-items:center; gap:12px; color:var(--text-muted); font-size:0.9rem; font-weight:600; margin:14px 0; }
+        .or-divider::before, .or-divider::after { content:''; flex:1; height:1px; background:var(--border-glass); }
+        .answer-textarea { width:100%; min-height:150px; padding:16px; border:1.5px solid var(--border-glass); border-radius:12px; font-family:var(--font-ui); font-size:0.95rem; line-height:1.6; resize:vertical; outline:none; transition:border 0.2s; color:var(--text-main); background:white; }
+        .answer-textarea:focus { border-color:var(--warning); box-shadow:0 0 0 3px rgba(245,158,11,0.1); }
+        
+        @media (max-width:1100px) { .analytics-panel { display:none; } }
+        @media (max-width:768px) { .sidebar { width:100%; } .container { flex-direction:column; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left"><i class="fas fa-pen-nib"></i> Mains PYQ Module</div>
+        <div><a href="mains.html" class="btn btn-outline" style="text-decoration:none;">Dashboard</a></div>
+    </header>
+
+    <div class="container" id="mainContainer" style="justify-content:center;">
+        <aside class="sidebar" id="filterSidebar">
+            <div style="display:flex; gap:15px; justify-content:center; margin-bottom:20px;">
+                <div class="mode-box active" onclick="selectMode('practice')">
+                    <i class="fas fa-dumbbell" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>Practice
+                </div>
+                <div class="mode-box" onclick="selectMode('test')">
+                    <i class="fas fa-stopwatch" style="font-size:1.5rem; margin-bottom:8px; display:block;"></i>Test
+                </div>
+            </div>
+            <div class="filter-card">
+                <div class="filter-title"><i class="fas fa-filter"></i> Dynamic Filters</div>
+
+                <!-- Paper Chips - Horizontally Scrollable -->
+                <div class="filter-group">
+                    <label class="filter-label">Paper</label>
+                    <div class="paper-chips" id="paperChips">
+                        <div class="paper-chip active" onclick="selectPaper(this,'all')">All</div>
+                        <div class="paper-chip" onclick="selectPaper(this,'GS1')">GS 1</div>
+                        <div class="paper-chip" onclick="selectPaper(this,'GS2')">GS 2</div>
+                        <div class="paper-chip" onclick="selectPaper(this,'GS3')">GS 3</div>
+                        <div class="paper-chip" onclick="selectPaper(this,'GS4')">GS 4</div>
+                        <div class="paper-chip" onclick="selectPaper(this,'Essay')">Essay</div>
+                        <div class="paper-chip" onclick="selectPaper(this,'Optional')">Optional</div>
+                    </div>
+                </div>
+
+                <!-- Subject - Dynamic -->
+                <div class="filter-group">
+                    <label class="filter-label">Subject</label>
+                    <select class="filter-select" id="subjectFilter">
+                        <option value="">All Subjects</option>
+                    </select>
+                </div>
+
+                <!-- Year -->
+                <div class="filter-group">
+                    <label class="filter-label">Year</label>
+                    <select class="filter-select" id="yearFilter"></select>
+                </div>
+
+                <!-- Marks -->
+                <div class="filter-group">
+                    <label class="filter-label">Marks</label>
+                    <select class="filter-select" id="marksFilter">
+                        <option value="">All Marks</option>
+                        <option value="10">10 Marks</option>
+                        <option value="15">15 Marks</option>
+                        <option value="20">20 Marks</option>
+                        <option value="125">125 Marks (Essay)</option>
+                    </select>
+                </div>
+
+                <!-- Type -->
+                <div class="filter-group">
+                    <label class="filter-label">Type</label>
+                    <select class="filter-select" id="typeFilter">
+                        <option value="all">All Questions</option>
+                        <option value="bookmarked">Bookmarked</option>
+                        <option value="unattempted">Unattempted</option>
+                        <option value="attempted">Attempted</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" id="startBtn" style="width:100%; justify-content:center;" onclick="startSession()">
+                    <i class="fas fa-play"></i> Start Practice
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content" id="mainArea" style="display:none;">
+
+            <!-- Question Navigation -->
+            <div class="q-navigation" id="qNav"></div>
+
+            <!-- Question Card -->
+            <div class="question-card" id="mainQuestionCard">
+
+                <!-- Top: Q number + Bookmark + Timer -->
+                <div class="q-top-bar">
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <span class="q-number" id="qId">MAINS PYQ: #001</span>
+                        <div class="badges-wrapper" id="qBadges"></div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:14px;">
+                        <!-- Bookmark -->
+                        <button class="sk-bookmark-btn" id="bookmarkBtn" onclick="toggleBookmark()">
+                            <i class="far fa-bookmark" id="bookmarkIcon"></i>
+                            <span id="bookmarkLabel">Save</span>
+                        </button>
+                        <!-- Timer -->
+                        <div>
+                            <div class="q-timer" id="timerDisplay">00:00</div>
+                            <div class="timer-controls" onclick="toggleTimer()" id="timerToggleBtn"><i class="fas fa-pause"></i> Pause</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marks -->
+                <div id="marksInfo" style="margin-bottom:16px;"></div>
+
+                <!-- Question Text -->
+                <div class="q-text" id="qText">Loading question...</div>
+
+                <!-- Answer Area (Upload + Text) -->
+                <div class="answer-area" id="answerAreaDiv" style="background:transparent; border:none; padding:0; box-shadow:none;">
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" accept="image/*,application/pdf" id="answerFileInput" onchange="handleAnswerUpload(event)">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h4>Click or drag to upload handwritten answer</h4>
+                        <p>Supports JPG, PNG, PDF &nbsp;|&nbsp; Max 10MB</p>
+                        <img id="uploadPreview" src="" alt="Preview">
+                    </div>
+                    <div class="or-divider">OR type your answer</div>
+                    <textarea class="answer-textarea" id="answerBox" placeholder="Write your answer here...&#10;Structure: Introduction → Arguments For → Arguments Against → Way Forward → Conclusion" oninput="updateWordCount()"></textarea>
+                    <div class="answer-toolbar" style="background:var(--bg-card); border:1px solid var(--border-glass); border-radius:0 0 12px 12px; border-top:none; margin-top:-5px; padding:10px 15px;">
+                        <span>Words: <strong id="wordCount">0</strong></span>
+                        <span>10M: 150-200w &nbsp;|&nbsp; 15M: 200-250w &nbsp;|&nbsp; 20M: 300-350w</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="q-actions" style="flex-wrap:wrap; gap:10px;">
+                    <button class="btn btn-primary" id="submitBtn" onclick="showAnswerTabs()">
+                        <i class="fas fa-paper-plane"></i> Submit Answer
+                    </button>
+                    <button class="btn sk-model-quick-btn" onclick="quickModelAnswer()">
+                        <i class="fas fa-graduation-cap"></i> Model Answer
+                    </button>
+                    <button class="btn btn-outline" onclick="skipQuestion()">Skip</button>
+                    <button class="btn btn-outline" style="margin-left:auto;" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <!-- Tabs shown after Submit -->
+                <div id="answerTabsSection" style="display:none; margin-top:22px;">
+
+                    <!-- Tab buttons -->
+                    <div class="sk-tabs-bar">
+                        <button class="sk-tab-btn active" id="tab-evaluate" onclick="showTab('evaluate')">
+                            <i class="fas fa-star"></i> Evaluate Answer
+                        </button>
+                        <button class="sk-tab-btn" id="tab-model" onclick="showTab('model')">
+                            <i class="fas fa-graduation-cap"></i> Model Answer
+                        </button>
+                    </div>
+
+                    <!-- EVALUATE PANEL -->
+                    <div class="sk-tab-panel active" id="panel-evaluate">
+                        <div class="sk-eval-intro">
+                            <i class="fas fa-info-circle" style="color:var(--warning); flex-shrink:0;"></i>
+                            <span>Compare your answer with the Model Answer and rate yourself honestly on each criterion.</span>
+                        </div>
+                        <div class="sk-criteria-list">
+                            <div class="sk-criterion">
+                                <div class="sk-crit-header">
+                                    <span class="sk-crit-label"><i class="fas fa-brain" style="color:#3b82f6;"></i> Content &amp; Coverage</span>
+                                    <span class="sk-crit-max">Max: 6</span>
+                                </div>
+                                <div class="sk-stars" id="stars-content" data-max="6" data-key="content"></div>
+                                <div class="sk-crit-desc">Both sides covered? Key facts, events, concepts mentioned?</div>
+                            </div>
+                            <div class="sk-criterion">
+                                <div class="sk-crit-header">
+                                    <span class="sk-crit-label"><i class="fas fa-list-ul" style="color:#8b5cf6;"></i> Structure &amp; Flow</span>
+                                    <span class="sk-crit-max">Max: 4</span>
+                                </div>
+                                <div class="sk-stars" id="stars-structure" data-max="4" data-key="structure"></div>
+                                <div class="sk-crit-desc">Clear intro → body → conclusion? Logical flow between paragraphs?</div>
+                            </div>
+                            <div class="sk-criterion">
+                                <div class="sk-crit-header">
+                                    <span class="sk-crit-label"><i class="fas fa-quote-right" style="color:#10b981;"></i> Examples &amp; Evidence</span>
+                                    <span class="sk-crit-max">Max: 3</span>
+                                </div>
+                                <div class="sk-stars" id="stars-examples" data-max="3" data-key="examples"></div>
+                                <div class="sk-crit-desc">Relevant examples, data, case studies, or constitutional articles cited?</div>
+                            </div>
+                            <div class="sk-criterion">
+                                <div class="sk-crit-header">
+                                    <span class="sk-crit-label"><i class="fas fa-pen-fancy" style="color:#f59e0b;"></i> Language &amp; Presentation</span>
+                                    <span class="sk-crit-max">Max: 2</span>
+                                </div>
+                                <div class="sk-stars" id="stars-language" data-max="2" data-key="language"></div>
+                                <div class="sk-crit-desc">Formal language, clear expression, minimal errors?</div>
+                            </div>
+                        </div>
+                        <div class="sk-total-row">
+                            <span>🎯 Your Estimated Score</span>
+                            <span class="sk-total-score"><span id="totalScore">0</span> / 15</span>
+                        </div>
+                        <textarea class="sk-notes-area" placeholder="Notes: What did you miss? What was good? How to improve next time?"></textarea>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+                            <button class="btn btn-primary" style="flex:1; justify-content:center;" onclick="showTab('model')">
+                                <i class="fas fa-graduation-cap"></i> View Model Answer
+                            </button>
+                            <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="nextQuestion()">
+                                <i class="fas fa-arrow-right"></i> Next Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MODEL ANSWER PANEL -->
+                    <div class="sk-tab-panel" id="panel-model">
+                        <div class="sk-model-card">
+                            <div class="sk-model-header">
+                                <i class="fas fa-graduation-cap"></i>
+                                <div>
+                                    <div style="font-size:1.05rem; font-weight:800;">Model Answer</div>
+                                    <div class="sk-model-meta" id="modelMeta"></div>
+                                </div>
+                            </div>
+                            <div class="sk-model-body" id="expContent"></div>
+                            <div id="keyPointsBox" style="display:none; margin-top:16px; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:12px; padding:14px 16px;">
+                                <div style="font-weight:700; color:#059669; font-size:0.85rem; margin-bottom:10px; display:flex; align-items:center; gap:6px; text-transform:uppercase; letter-spacing:0.5px;"><i class="fas fa-tags"></i> Key Tags</div>
+                                <div style="display:flex; gap:8px; flex-wrap:wrap;" id="expTags"></div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+                            <button class="btn btn-primary" style="flex:1; justify-content:center;" onclick="showTab('evaluate')">
+                                <i class="fas fa-star"></i> Self Evaluate
+                            </button>
+                            <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="nextQuestion()">
+                                <i class="fas fa-arrow-right"></i> Next Question
+                            </button>
+                        </div>
+                    </div>
+
+                </div><!-- end tabs section -->
+
+            </div><!-- end question-card -->
+        </main>
+
+        <aside class="analytics-panel" id="analyticsArea" style="display:none;">
+            <div class="stat-card">
+                <div class="stat-label">Session Progress</div>
+                <div class="stat-value" id="qSolved">0</div>
+                <div class="progress-list">
+                    <div><div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; font-family:var(--font-ui);"><span>Attempted</span><span id="qAttempted">0</span></div><div class="p-bar"><div class="p-fill" id="barAttempted" style="width:0%;"></div></div></div>
+                    <div><div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; font-family:var(--font-ui);"><span>Skipped</span><span id="qSkipped">0</span></div><div class="p-bar"><div class="p-fill" id="barSkipped" style="width:0%; background:var(--danger);"></div></div></div>
+                    <div><div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:600; font-family:var(--font-ui);"><span>Remaining</span><span id="qUnattempted">0</span></div><div class="p-bar"><div class="p-fill" id="barUnattempted" style="width:100%; background:#cbd5e1;"></div></div></div>
+                </div>
+            </div>
+            <div class="stat-card" style="text-align:left;">
+                <div class="stat-label" style="text-align:center; margin-bottom:15px;">Session Info</div>
+                <div style="display:flex; flex-direction:column; gap:12px; font-family:var(--font-ui); font-size:0.9rem;">
+                    <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Paper</span><span style="font-weight:600;" id="infoPaper">-</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Year</span><span style="font-weight:600;" id="infoYear">-</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Subject</span><span style="font-weight:600;" id="infoSubject">-</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Total Qs</span><span style="font-weight:600;" id="infoTotal">0</span></div>
+                </div>
+            </div>
+            <button class="btn btn-outline" onclick="endSession()" style="width:100%; justify-content:center;"><i class="fas fa-stop"></i> End Session</button>
+        </aside>
+    </div>
+
+    <script src="mains-pyq-data.js"></script>
+    <script src="mains-pyq-logic.js"></script>
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

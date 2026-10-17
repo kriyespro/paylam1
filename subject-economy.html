@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economics | THE BASICS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        :root {
+            --premium-bg: #E2E8F0; /* Eye-safe darker background */
+            --premium-card: #FFFFFF;
+            --premium-primary: #16A34A; /* Green Primary */
+            --premium-accent: #059669; /* Green Accent */
+            --premium-success: #16A34A;
+            --premium-text-heading: #0F172A;
+            --premium-text-secondary: #64748B;
+            --premium-border: #E5E7EB;
+            --premium-shadow: 0 12px 30px rgba(15,23,42,.08);
+            --premium-radius: 22px;
+        }
+
+        body {
+            background-color: var(--premium-bg);
+            color: var(--premium-text-secondary);
+        }
+
+        .premium-header {
+            padding: 120px 20px 60px;
+            text-align: center;
+            background: linear-gradient(135deg, #16A34A 0%, #064e3b 100%);
+            color: white;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.2);
+        }
+
+        .premium-header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .premium-header p {
+            font-size: 1.2rem;
+            color: #E2E8F0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .premium-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .premium-subject-card {
+            background: var(--premium-card);
+            border: 1px solid var(--premium-border);
+            border-radius: var(--premium-radius);
+            box-shadow: var(--premium-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .premium-subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(15,23,42,.12);
+        }
+
+        .card-header {
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid var(--premium-border);
+        }
+
+        .card-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .subject-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--premium-primary);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+        }
+
+        .subject-info h2 {
+            color: var(--premium-text-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .subject-info p {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .progress-wrap {
+            text-align: right;
+            min-width: 150px;
+        }
+
+        .progress-text {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--premium-text-heading);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #F1F5F9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--premium-success);
+            border-radius: 10px;
+            transition: width 1s ease-out;
+        }
+
+        .card-actions {
+            padding: 20px 30px;
+            background: #FAFAF9;
+        }
+
+        .btn-continue {
+            width: 100%;
+            padding: 15px;
+            background: var(--premium-accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .btn-continue:hover {
+            background: #047857;
+        }
+
+        .btn-continue i {
+            transition: transform 0.3s;
+        }
+
+        .units-container {
+            padding: 30px;
+            background: var(--premium-card);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--premium-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border: 2px solid var(--premium-border);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .timeline-marker .unit-number {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--premium-text-secondary);
+        }
+
+        .timeline-content {
+            background: #F8FAFC;
+            border: 1px solid var(--premium-border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .unit-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+            transition: background 0.2s;
+        }
+
+        .unit-header:hover {
+            background: #F1F5F9;
+        }
+
+        .unit-header h3 {
+            color: var(--premium-text-heading);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .unit-header p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .lessons-container {
+            border-top: 1px solid var(--premium-border);
+            padding: 10px 20px;
+        }
+
+        .lesson-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .lesson-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--premium-border);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.95rem;
+            color: var(--premium-text-heading);
+        }
+
+        .lesson-header-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .lesson-description {
+            font-size: 0.85rem;
+            color: var(--premium-text-secondary);
+            padding-left: 31px; /* Align text past the icon */
+            line-height: 1.4;
+        }
+
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-item.completed {
+            color: var(--premium-text-secondary);
+        }
+
+        .lesson-type-icon {
+            color: var(--premium-primary);
+            opacity: 0.7;
+        }
+
+        .lesson-duration {
+            color: var(--premium-text-secondary);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="active"><i class="fas fa-book-open"></i> Subject</a></li>
+                <li><a href="#"><i class="fas fa-check-square"></i> MCQ</a></li>
+                <li><a href="#"><i class="far fa-newspaper"></i> News</a></li>
+            </ul>
+            <div class="nav-right">
+                <span class="nav-divider">|</span>
+                <div class="nav-buttons">
+                    <a href="#" class="btn btn-outline"><i class="fas fa-user"></i> Profile</a>
+                </div>
+                <!-- Mobile Login Button --><a href="#" class="mobile-login-btn" onclick="openAuthModal('login');return false;"><i class="fas fa-user"></i> Login</a>
+                <div class="mobile-menu-btn" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <h1>ECONOMICS</h1>
+        <p>Premium Learning Module. Master national income, banking, taxation, and economic reforms with structured units.</p>
+    </header>
+
+    <!-- Main Module Container -->
+    <div class="premium-container" id="economy-module-container">
+        <!-- Javascript will inject Subject Cards Here -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tagline-wrap">
+                <div class="footer-line"></div>
+                <p>Build Knowledge &bull; Crack Exams &bull; Achieve Success</p>
+                <div class="footer-line"></div>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="economy-data.js"></script>
+    <script src="economy-ui.js"></script>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>
+

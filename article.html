@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article | THE BASICS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 80px; /* Space for bottom bar */
+        }
+        
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--dashboard-bg);
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Top Header */
+        .article-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-btn {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            cursor: pointer;
+            text-decoration: none;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+        }
+
+        .article-counter {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Hero Card */
+        .hero-card {
+            background: #0A192F; /* Deep Navy */
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .hero-meta div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-headline {
+            color: #38BDF8; /* Bright Blue */
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag-pill {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38BDF8;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Key Highlights */
+        .highlights-section {
+            padding: 0 10px;
+        }
+
+        .highlights-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .highlights-list {
+            padding-left: 20px;
+            margin: 0;
+            list-style-type: disc;
+        }
+
+        .highlights-list li {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            line-height: 1.7;
+            position: relative;
+            padding-left: 5px;
+        }
+        
+        .highlights-list li::marker {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Bottom Action Bar */
+        .bottom-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--dashboard-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .bottom-action-container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .action-btn:hover {
+            color: var(--primary);
+        }
+
+        .mark-read-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: #059669;
+            border: 2px solid #059669;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mark-read-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+        }
+        
+        .mark-read-btn.read {
+            background: #059669;
+            color: white;
+        }
+
+        /* Share Modal */
+        .share-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .share-modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .share-modal {
+            background: var(--dashboard-bg);
+            border-radius: 16px;
+            padding: 20px;
+            width: 90%;
+            max-width: 320px;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .share-modal-overlay.active .share-modal {
+            transform: translateY(0);
+        }
+
+        .share-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .share-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .share-btn-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .share-icon-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+        }
+
+        .share-whatsapp { background: #25D366; }
+        .share-twitter { background: #1DA1F2; }
+        .share-facebook { background: #1877F2; }
+        .share-copy { background: #64748b; }
+    </style>
+</head>
+<body>
+
+    <div class="article-container">
+        <!-- Header -->
+        <div class="article-header">
+            <a href="news.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <h1 class="article-title">Article</h1>
+            <div class="article-counter">#1/15</div>
+        </div>
+
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <div class="hero-meta">
+                <div><i class="far fa-calendar-alt"></i> <span id="article-date">September 8, 2026</span></div>
+                <div><i class="far fa-newspaper"></i> The Hindu</div>
+            </div>
+            <h2 class="hero-headline">Delhi HC calls for audit of hostels; collapse toll hits 7, Pg1</h2>
+            <p class="hero-desc">Delhi High Court orders audit of all PG hostels after building collapse kills seven, raising concerns over student safety and municipal oversight.</p>
+            <div class="hero-tags">
+                <span class="tag-pill">GS 2: Governance</span>
+                <span class="tag-pill">GS 2: Social Justice</span>
+                <span class="tag-pill">GS 3: Disaster Management</span>
+                <span class="tag-pill">GS 2: Polity</span>
+            </div>
+        </div>
+
+        <!-- Key Highlights -->
+        <div class="highlights-section">
+            <h3 class="highlights-title">Key Highlights:</h3>
+            <ul class="highlights-list">
+                <li>A building collapse in the Satya Niketan area of Delhi resulted in seven fatalities.</li>
+                <li>The <strong>Delhi High Court</strong> directed the <strong>Municipal Corporation of Delhi (MCD)</strong> to inspect all paying guest (PG) hostels under its jurisdiction within a week.</li>
+                <li>The incident has raised significant concerns regarding student safety, unregulated construction, and the lack of proper municipal oversight in densely populated areas.</li>
+                <li>Authorities have been asked to submit a detailed report outlining the structural safety of these accommodations and any violations of building bylaws.</li>
+                <li>The court emphasized that student lives cannot be put at risk due to administrative negligence and demanded strict action against illegal PG operations.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom Bar -->
+    <div class="bottom-action-bar">
+        <div class="bottom-action-container">
+            <div class="action-icons">
+                <button class="action-btn" onclick="toggleAction(this, 'like')"><i class="far fa-thumbs-up"></i></button>
+                <button class="action-btn" onclick="toggleAction(this, 'dislike')"><i class="far fa-thumbs-down"></i></button>
+                <button class="action-btn" onclick="toggleAction(this, 'download')"><i class="fas fa-download"></i></button>
+                <button class="action-btn" onclick="openShareModal()"><i class="fas fa-share"></i></button>
+            </div>
+            <button class="mark-read-btn" id="markReadBtn" onclick="toggleRead()">
+                <i class="far fa-check-circle"></i> MARK AS READ
+            </button>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal-overlay" id="shareModalOverlay" onclick="closeShareModal(event)">
+        <div class="share-modal" onclick="event.stopPropagation()">
+            <div class="share-header">
+                Share Article
+                <button class="share-close" onclick="closeShareModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="share-options">
+                <a href="#" class="share-btn-item" onclick="shareTo('whatsapp')">
+                    <div class="share-icon-circle share-whatsapp"><i class="fab fa-whatsapp"></i></div>
+                    WhatsApp
+                </a>
+                <a href="#" class="share-btn-item" onclick="shareTo('twitter')">
+                    <div class="share-icon-circle share-twitter"><i class="fab fa-twitter"></i></div>
+                    Twitter
+                </a>
+                <a href="#" class="share-btn-item" onclick="shareTo('facebook')">
+                    <div class="share-icon-circle share-facebook"><i class="fab fa-facebook-f"></i></div>
+                    Facebook
+                </a>
+                <div class="share-btn-item" onclick="shareTo('copy')">
+                    <div class="share-icon-circle share-copy"><i class="fas fa-link"></i></div>
+                    Copy Link
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Make the date dynamic to today's date just to look fresh
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateElement = document.getElementById('article-date');
+            if (dateElement) {
+                const today = new Date();
+                const options = { month: 'long', day: 'numeric', year: 'numeric' };
+                dateElement.textContent = today.toLocaleDateString('en-US', options);
+            }
+        });
+
+        // Toggle Action Buttons
+        function toggleAction(btn, action) {
+            if (action === 'like') {
+                const icon = btn.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    btn.style.color = 'var(--primary)';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    btn.style.color = '';
+                }
+            } else if (action === 'dislike') {
+                const icon = btn.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    btn.style.color = '#e63946';
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    btn.style.color = '';
+                }
+            } else if (action === 'download') {
+                // Mock download
+                btn.style.color = 'var(--primary)';
+                alert('Article PDF download started!');
+                setTimeout(() => {
+                    btn.style.color = '';
+                }, 1000);
+            }
+        }
+
+        // Share Modal Logic
+        function openShareModal() {
+            if (navigator.share && window.innerWidth < 768) {
+                // Use native share on mobile if supported
+                navigator.share({
+                    title: 'The Basics - News Article',
+                    text: 'Check out this news article on The Basics',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                // Fallback to custom modal
+                document.getElementById('shareModalOverlay').classList.add('active');
+            }
+        }
+
+        function closeShareModal(e) {
+            if (e && e.target !== document.getElementById('shareModalOverlay') && e.target.tagName !== 'BUTTON' && !e.target.closest('.share-close')) return;
+            document.getElementById('shareModalOverlay').classList.remove('active');
+        }
+
+        function shareTo(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent('Check out this news article on The Basics: ');
+            
+            if (platform === 'whatsapp') {
+                window.open(`https://api.whatsapp.com/send?text=${text}${url}`, '_blank');
+            } else if (platform === 'twitter') {
+                window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+            } else if (platform === 'facebook') {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            } else if (platform === 'copy') {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Link copied to clipboard!');
+                });
+            }
+            document.getElementById('shareModalOverlay').classList.remove('active');
+        }
+
+        // Toggle Mark As Read
+        function toggleRead() {
+            const btn = document.getElementById('markReadBtn');
+            btn.classList.toggle('read');
+            if (btn.classList.contains('read')) {
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> READ';
+            } else {
+                btn.innerHTML = '<i class="far fa-check-circle"></i> MARK AS READ';
+            }
+        }
+    </script>
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

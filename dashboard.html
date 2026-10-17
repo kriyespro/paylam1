@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | THE BASICS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        body { background-color: var(--bg-main); }
+
+        .dash-header {
+            padding: 50px 20px 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+        }
+        .dash-header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .dash-avatar {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(252,209,72,0.5);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .dash-welcome h1 { font-size: 1.6rem; margin: 0 0 4px; }
+        .dash-welcome p { margin: 0; opacity: 0.85; font-size: 0.95rem; }
+        .dash-header-actions { margin-left: auto; display: flex; gap: 10px; }
+        .dash-logout-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: background 0.2s;
+        }
+        .dash-logout-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .dash-container { max-width: 1100px; margin: -30px auto 60px; padding: 0 20px; }
+
+        .dash-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+        .dash-stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .dash-stat-card i { font-size: 1.4rem; color: var(--secondary); margin-bottom: 8px; }
+        .dash-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--text-main); font-family: 'Poppins', sans-serif; }
+        .dash-stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+        .dash-section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .dash-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 14px;
+            margin-bottom: 36px;
+        }
+        .dash-link-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: var(--card-shadow);
+            padding: 18px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid transparent;
+        }
+        .dash-link-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+        .dash-link-card i { font-size: 1.3rem; color: var(--secondary); width: 28px; text-align: center; }
+        .dash-link-card span { font-weight: 600; font-size: 0.92rem; }
+
+        .dash-progress-wrap { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow); padding: 22px; margin-bottom: 36px; }
+        .dash-progress-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+        .dash-progress-bar { height: 10px; border-radius: 6px; background: var(--border-color); overflow: hidden; }
+        .dash-progress-fill { height: 100%; background: var(--accent-gradient); border-radius: 6px; transition: width 0.4s ease; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="learn.html"><i class="fas fa-book-open"></i> Learn</a></li>
+                <li><a href="prelims.html"><i class="fas fa-clipboard-check"></i> Prelims</a></li>
+                <li><a href="mains.html"><i class="fas fa-pen-nib"></i> Mains</a></li>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            </ul>
+            <div class="nav-right">
+                <span class="nav-divider">|</span>
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" onclick="dashLogout()" style="cursor:pointer;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+                <div class="mobile-menu-btn" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <header class="dash-header">
+        <div class="dash-header-inner">
+            <div class="dash-avatar" id="dashAvatar">📚</div>
+            <div class="dash-welcome">
+                <h1 id="dashWelcome">Welcome back!</h1>
+                <p id="dashSub">Target: UPSC</p>
+            </div>
+            <div class="dash-header-actions">
+                <button class="dash-logout-btn" onclick="dashLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="dash-container">
+        <!-- Stats -->
+        <div class="dash-stats-grid">
+            <div class="dash-stat-card"><i class="fas fa-bolt"></i><div class="dash-stat-value" id="statXp">0</div><div class="dash-stat-label">XP</div></div>
+            <div class="dash-stat-card"><i class="fas fa-coins"></i><div class="dash-stat-value" id="statCoins">0</div><div class="dash-stat-label">Coins</div></div>
+            <div class="dash-stat-card"><i class="fas fa-fire"></i><div class="dash-stat-value" id="statStreak">0</div><div class="dash-stat-label">Day Streak</div></div>
+            <div class="dash-stat-card"><i class="fas fa-question-circle"></i><div class="dash-stat-value" id="statQuestions">0</div><div class="dash-stat-label">Questions Attempted</div></div>
+            <div class="dash-stat-card"><i class="fas fa-percentage"></i><div class="dash-stat-value" id="statAvgScore">0%</div><div class="dash-stat-label">Avg Score</div></div>
+            <div class="dash-stat-card"><i class="fas fa-layer-group"></i><div class="dash-stat-value" id="statSubjects">0</div><div class="dash-stat-label">Subjects Done</div></div>
+        </div>
+
+        <!-- Progress -->
+        <div class="dash-progress-wrap">
+            <div class="dash-progress-row"><span>Overall Progress toward your goals</span><span id="progressPct">0%</span></div>
+            <div class="dash-progress-bar"><div class="dash-progress-fill" id="progressFill" style="width:0%;"></div></div>
+        </div>
+
+        <!-- Quick Links -->
+        <h2 class="dash-section-title">Continue Learning</h2>
+        <div class="dash-links-grid">
+            <a href="prelims-mcq.html" class="dash-link-card"><i class="fas fa-check-square"></i><span>Prelims MCQs</span></a>
+            <a href="mains-pyq.html" class="dash-link-card"><i class="fas fa-pen-nib"></i><span>Mains PYQ</span></a>
+            <a href="current-affairs.html" class="dash-link-card"><i class="far fa-newspaper"></i><span>Current Affairs</span></a>
+            <a href="ncert-module.html" class="dash-link-card"><i class="fas fa-book"></i><span>NCERT</span></a>
+            <a href="daily-mains.html" class="dash-link-card"><i class="fas fa-calendar-day"></i><span>Daily Mains</span></a>
+            <a href="my-evaluations.html" class="dash-link-card"><i class="fas fa-clipboard-list"></i><span>My Evaluations</span></a>
+            <a href="prelims.html" class="dash-link-card"><i class="fas fa-clipboard-check"></i><span>Prelims Hub</span></a>
+            <a href="profile-setup.html" class="dash-link-card"><i class="fas fa-user-cog"></i><span>Edit Profile</span></a>
+        </div>
+
+        <!-- Subjects -->
+        <h2 class="dash-section-title">Subjects</h2>
+        <div class="dash-links-grid">
+            <a href="subject-polity.html" class="dash-link-card"><i class="fas fa-landmark"></i><span>Polity</span></a>
+            <a href="subject-history.html" class="dash-link-card"><i class="fas fa-scroll"></i><span>History</span></a>
+            <a href="subject-geography.html" class="dash-link-card"><i class="fas fa-globe-asia"></i><span>Geography</span></a>
+            <a href="subject-economy.html" class="dash-link-card"><i class="fas fa-chart-line"></i><span>Economy</span></a>
+            <a href="subject-environment.html" class="dash-link-card"><i class="fas fa-leaf"></i><span>Environment</span></a>
+            <a href="subject-governance.html" class="dash-link-card"><i class="fas fa-building-columns"></i><span>Governance</span></a>
+            <a href="subject-ir.html" class="dash-link-card"><i class="fas fa-people-group"></i><span>Int. Relations</span></a>
+            <a href="subject-internal-security.html" class="dash-link-card"><i class="fas fa-shield-halved"></i><span>Internal Security</span></a>
+            <a href="subject-disaster-management.html" class="dash-link-card"><i class="fas fa-house-flood-water"></i><span>Disaster Mgmt</span></a>
+            <a href="subject-ethics.html" class="dash-link-card"><i class="fas fa-hands-praying"></i><span>Ethics</span></a>
+            <a href="subject-social-issue.html" class="dash-link-card"><i class="fas fa-people-roof"></i><span>Social Issue</span></a>
+            <a href="subject-science-tech.html" class="dash-link-card"><i class="fas fa-flask"></i><span>Science &amp; Tech</span></a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-tagline-wrap">
+                <div class="footer-line"></div>
+                <p>Build Knowledge &bull; Crack Exams &bull; Achieve Success</p>
+                <div class="footer-line"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!Auth.isLoggedIn()) {
+                window.location.href = 'index.html';
+                return;
+            }
+            const user = Auth.getCurrentUser();
+            if (!user) { window.location.href = 'index.html'; return; }
+            if (!user.profileComplete) {
+                window.location.href = 'profile-setup.html';
+                return;
+            }
+
+            const name = user.displayName || user.fullName || 'Student';
+            document.getElementById('dashAvatar').textContent = user.avatar || '📚';
+            document.getElementById('dashWelcome').textContent = 'Welcome back, ' + name.split(' ')[0] + '!';
+            document.getElementById('dashSub').textContent = 'Target: ' + (user.targetExam || 'UPSC') + (user.examDate ? ' • Exam: ' + user.examDate : '');
+
+            const stats = user.stats || {};
+            const targets = user.targets || {};
+            document.getElementById('statXp').textContent = stats.xp || 0;
+            document.getElementById('statCoins').textContent = stats.coins || 0;
+            document.getElementById('statStreak').textContent = stats.streak || 0;
+            document.getElementById('statQuestions').textContent = stats.questionsAttempted || 0;
+            document.getElementById('statAvgScore').textContent = (stats.avgScore || 0) + '%';
+            document.getElementById('statSubjects').textContent = stats.subjectsCompleted || 0;
+
+            const questionsPct = targets.questionsAttempted ? Math.min(100, Math.round(((stats.questionsAttempted || 0) / targets.questionsAttempted) * 100)) : 0;
+            document.getElementById('progressPct').textContent = questionsPct + '%';
+            document.getElementById('progressFill').style.width = questionsPct + '%';
+        });
+
+        function dashLogout() {
+            Auth.logout();
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Mains Question | THE BASICS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        body {
+            /* Keep standard background from style.css */
+            padding-bottom: 120px; /* Space for sticky footer */
+        }
+        
+        .dmq-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* App Header Style */
+        .dmq-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .dmq-header .close-btn {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .dmq-header h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+            text-align: center;
+            flex: 1;
+        }
+        .dmq-header .trophy-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(252, 209, 72, 0.15);
+            color: #D97706;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border: 1px solid rgba(252, 209, 72, 0.3);
+            transition: transform 0.2s;
+        }
+        .dmq-header .trophy-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Stats Card */
+        .dmq-stats-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+        .dmq-stats-card .stats-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .dmq-stats-card .stats-info strong {
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+        .dmq-stats-card .stats-info strong span {
+            color: var(--secondary); /* Highlighting the number/DMQ */
+        }
+        .dmq-stats-card .stats-info .lifetime {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .dmq-stats-card .btn-see-all {
+            padding: 8px 20px;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .dmq-stats-card .btn-see-all:hover {
+            background: rgba(20,55,138,0.05);
+        }
+
+        /* Question Card */
+        .dmq-question-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        .q-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .q-card-header h2 {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            font-weight: 700;
+            margin: 0;
+        }
+        .q-card-header .date-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .q-text {
+            font-size: 1.15rem;
+            color: var(--text-main);
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .q-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .tag {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .tag-blue { background: rgba(20,55,138,0.1); color: var(--secondary); }
+        .tag-purple { background: rgba(139,92,246,0.1); color: #7C3AED; }
+        .tag-gray { background: #F3F4F6; color: var(--text-muted); }
+
+        .q-card-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .avatars-group {
+            display: flex;
+        }
+        .avatars-group img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -10px;
+        }
+        .avatars-group img:first-child {
+            margin-left: 0;
+        }
+        .attempt-count {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Sticky Footer */
+        .dmq-sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            z-index: 100;
+            border-top: 1px solid var(--border-color);
+        }
+        .timer-banner {
+            background: rgba(252, 209, 72, 0.2);
+            color: #B45309;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            padding: 15px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .action-buttons .btn {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            border-radius: 12px;
+        }
+        .btn-research {
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            background: transparent;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-research:hover {
+            background: rgba(20,55,138,0.05);
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mains.html" class="active"><i class="fas fa-pen-nib"></i> Mains</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="dmq-container">
+        
+        <!-- Header -->
+        <div class="dmq-header">
+            <a href="mains.html" class="close-btn"><i class="fas fa-times"></i></a>
+            <h1>Daily Mains Question</h1>
+            <a href="#" class="trophy-btn"><i class="fas fa-trophy"></i></a>
+        </div>
+
+        <!-- Stats Card -->
+        <div class="dmq-stats-card">
+            <div class="stats-info">
+                <strong><span>0 DMQ</span> attempted</strong>
+                <span class="lifetime">Lifetime attempts</span>
+            </div>
+            <a href="all-questions.html" class="btn-see-all">See All</a>
+        </div>
+
+        <!-- Question Card -->
+        <div class="dmq-question-card">
+            <div class="q-card-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h2 style="margin-bottom: 5px;">Question</h2>
+                    <div class="date-badge"><i class="far fa-calendar"></i> Today</div>
+                </div>
+                <div id="countdown-timer" style="font-family: monospace; font-size: 1.5rem; font-weight: 700; background: rgba(0,0,0,0.05); padding: 8px 15px; border-radius: 10px; display: inline-block; color: var(--warning);">05:34:20</div>
+            </div>
+            
+            <div class="q-text">
+                "The basic structure doctrine has protected the Indian Constitution from losing its essence, but it has also led to judicial overreach." Critically analyze this statement.
+            </div>
+            
+            <div class="q-tags">
+                <span class="tag tag-blue">GS 2</span>
+                <span class="tag tag-purple">Indian Polity</span>
+                <span class="tag tag-gray">15 Marks</span>
+            </div>
+
+            <div id="researchHint" style="display: none; margin-top: 25px; padding: 25px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); animation: fadeIn 0.3s ease;">
+                <h3 style="color: var(--primary); text-align: center; margin-bottom: 20px; font-size: 1.3rem;">Tips</h3>
+                <ul style="color: var(--text-main); font-size: 1rem; line-height: 1.6; padding: 0; margin: 0; list-style: none;">
+                    <li style="display: flex; gap: 15px; margin-bottom: 18px; align-items: flex-start;">
+                        <i class="fas fa-check" style="color: #3b82f6; font-size: 1.1rem; margin-top: 4px;"></i>
+                        <span>Kesavananda Bharati case (1973) established that Parliament cannot alter the 'Basic Structure' under Article 368.</span>
+                    </li>
+                    <li style="display: flex; gap: 15px; margin-bottom: 18px; align-items: flex-start;">
+                        <i class="fas fa-check" style="color: #3b82f6; font-size: 1.1rem; margin-top: 4px;"></i>
+                        <span>Saved democracy during the 1975 Emergency, protected judicial review (Minerva Mills case), and prevented absolute majoritarianism.</span>
+                    </li>
+                    <li style="display: flex; gap: 15px; margin-bottom: 18px; align-items: flex-start;">
+                        <i class="fas fa-check" style="color: #3b82f6; font-size: 1.1rem; margin-top: 4px;"></i>
+                        <span>'Basic Structure' is nowhere defined in the Constitution. Courts use it subjectively (e.g., striking down the NJAC Act), sometimes acting as a "super-legislature."</span>
+                    </li>
+                    <li style="display: flex; gap: 15px; align-items: flex-start;">
+                        <i class="fas fa-check" style="color: #3b82f6; font-size: 1.1rem; margin-top: 4px;"></i>
+                        <span>The doctrine is a necessary safety valve, but the judiciary must exercise self-restraint to respect the Separation of Powers.</span>
+                    </li>
+                </ul>
+                <div style="background: rgba(59, 130, 246, 0.1); color: #1e3a8a; padding: 12px 15px; border-radius: 8px; font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 25px;">
+                    <i class="fas fa-info-circle"></i> Write your answer once research is done
+                </div>
+            </div>
+            
+            <div class="q-card-footer">
+                <div class="avatars-group">
+                    <img src="https://i.pravatar.cc/100?img=1" alt="user">
+                    <img src="https://i.pravatar.cc/100?img=2" alt="user">
+                    <img src="https://i.pravatar.cc/100?img=3" alt="user">
+                </div>
+                <div class="attempt-count"><strong>1143+</strong> students attempted</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Sticky Footer -->
+    <div class="dmq-sticky-footer">
+
+        <div class="action-buttons">
+            <a href="#" class="btn btn-research" onclick="toggleResearchHint(event)">Do Research</a>
+            <a href="evaluate.html" class="btn btn-primary">Write Answer</a>
+        </div>
+    </div>
+
+
+    
+
+    <script>
+        function updateTimer() {
+            const now = new Date();
+            const eod = new Date();
+            eod.setHours(23, 59, 59, 999);
+            const diff = eod - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown-timer').textContent = '00:00:00';
+                return;
+            }
+            
+            const h = Math.floor(diff / 3600000).toString().padStart(2, '0');
+            const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+            const s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+            
+            document.getElementById('countdown-timer').textContent = `${h}:${m}:${s}`;
+        }
+
+        function toggleResearchHint(e) {
+            e.preventDefault();
+            const hint = document.getElementById('researchHint');
+            if(hint.style.display === 'none') {
+                hint.style.display = 'block';
+            } else {
+                hint.style.display = 'none';
+            }
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

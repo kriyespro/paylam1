@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prelims Dashboard | THE BASICS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #3b82f6;
+            --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --success: #10b981;
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            --font-main: 'Outfit', sans-serif;
+            --font-ui: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Sticky Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-bar {
+            position: relative;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 8px 15px 8px 40px;
+            color: var(--text-main);
+            width: 250px;
+            transition: all 0.3s;
+        }
+        .search-bar:focus { width: 300px; border-color: var(--primary); outline: none; background: rgba(0, 0, 0, 0.05); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+        .icon-btn {
+            background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; position: relative; transition: color 0.3s;
+        }
+        .icon-btn:hover { color: var(--text-main); }
+        .badge { position: absolute; top: -5px; right: -5px; background: var(--danger); width: 8px; height: 8px; border-radius: 50%; }
+
+        .streak-badge {
+            background: rgba(245, 158, 11, 0.1); color: var(--warning); padding: 5px 12px; border-radius: 15px; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .user-profile {
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+        }
+        .avatar { width: 35px; height: 35px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        /* Grid Layouts */
+        .quick-access-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .two-col-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 40px; }
+
+        /* Module Cards */
+        .module-card {
+            display: flex; flex-direction: column; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-decoration: none; color: inherit;
+        }
+        .module-card:hover { transform: translateY(-5px); border-color: rgba(0,0,0,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .module-icon { width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 15px; }
+        
+        .pyq-icon { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .mcq-icon { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .ca-icon { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .ncert-icon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+        .module-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+        .module-stats { font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 15px; font-family: var(--font-ui); }
+        
+        .progress-track { height: 6px; background: rgba(0,0,0,0.05); border-radius: 3px; overflow: hidden; margin-bottom: 15px; }
+        .progress-fill { height: 100%; background: var(--primary-gradient); border-radius: 3px; }
+
+        .module-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+
+        /* Daily Challenge */
+        .daily-card { background: linear-gradient(135deg, rgba(248, 250, 252, 0.8) 0%, rgba(226, 232, 240, 0.8) 100%); border: 1px solid rgba(59, 130, 246, 0.2); }
+        .timer-box { font-family: monospace; font-size: 1.5rem; font-weight: 700; background: rgba(0,0,0,0.05); padding: 8px 15px; border-radius: 10px; display: inline-block; color: var(--warning); margin-bottom: 15px; }
+        .rewards { display: flex; gap: 15px; margin-bottom: 20px; }
+        .reward-pill { background: rgba(0,0,0,0.03); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        
+        .btn { padding: 10px 20px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-main); }
+        .btn-primary { background: var(--primary-gradient); color: white; }
+        .btn-primary:hover { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+        
+        /* Revision Areas */
+        .revision-list { display: flex; flex-direction: column; gap: 12px; }
+        .revision-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: rgba(0,0,0,0.02); border-radius: 10px; border: 1px solid transparent; transition: all 0.2s; cursor: pointer;}
+        .revision-item:hover { background: rgba(0,0,0,0.04); border-color: var(--border-glass); }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 10px; }
+        .dot-weak { background: var(--danger); box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+        .dot-strong { background: var(--success); box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+        .dot-avg { background: var(--warning); box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+
+        /* Topic Chips */
+        .topics-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .topic-chip-simple { padding: 10px 20px; background: transparent; border: 1px solid var(--border-glass); border-radius: 25px; font-size: 1rem; font-family: var(--font-ui); cursor: pointer; transition: all 0.2s; font-weight: 500; }
+        .topic-chip-simple:hover { background: rgba(59, 130, 246, 0.05); border-color: var(--primary); color: var(--primary); }
+        .topic-banner { background: rgba(59, 130, 246, 0.1); color: var(--primary); text-align: center; padding: 12px; font-size: 0.95rem; font-weight: 600; margin-bottom: 20px; font-family: var(--font-ui); }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px; width: 90%; max-width: 600px; padding: 30px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .close-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <i class="fas fa-layer-group"></i> Prelims Module
+        </div>
+        <div class="header-right">
+            <div style="position: relative;">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" placeholder="Search MCQs, PYQs, Topics...">
+            </div>
+            <div class="streak-badge" id="streakBadge">
+                <i class="fas fa-fire"></i> <span id="streakCount">0</span> Days
+            </div>
+            <button class="icon-btn"><i class="fas fa-chart-pie"></i></button>
+            <button class="icon-btn">
+                <i class="fas fa-bell"></i>
+                <span class="badge"></span>
+            </button>
+            <div class="user-profile">
+                <div class="avatar" id="userAvatar">A</div>
+                <div class="responsive-flex-row">
+                    <span style="font-weight: 600; font-size: 0.9rem;" id="userName">Aspirant</span>
+                    <span style="font-size: 0.75rem; color: var(--primary);"><span id="userXp">0</span> XP</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- Quick Access Section -->
+        <h2 class="section-title"><i class="fas fa-bolt" style="color: var(--warning);"></i> Quick Access</h2>
+        <div class="quick-access-grid">
+            
+            <a href="pyq.html" class="glass-card module-card">
+                <div class="module-icon pyq-icon"><i class="fas fa-history"></i></div>
+                <div class="module-title">PYQ Module</div>
+                <div class="module-stats">
+                    <span>1450 Completed</span>
+                    <span style="color: var(--success);"><i class="fas fa-arrow-up"></i> +12 today</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 45%;"></div></div>
+                <div class="module-footer">Continue Learning <i class="fas fa-arrow-right"></i></div>
+            </a>
+
+            <a href="mcq-module.html" class="glass-card module-card">
+                <div class="module-icon mcq-icon"><i class="fas fa-list-check"></i></div>
+                <div class="module-title">MCQ Practice</div>
+                <div class="module-stats">
+                    <span>2300 Attempted</span>
+                    <span style="color: var(--warning);">24 Pending Review</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 60%; background: var(--success-gradient);"></div></div>
+                <div class="module-footer" style="color: var(--success);">Open Module <i class="fas fa-arrow-right"></i></div>
+            </a>
+
+            <a href="current-affairs.html" class="glass-card module-card">
+                <div class="module-icon ca-icon"><i class="far fa-newspaper"></i></div>
+                <div class="module-title">News</div>
+                <div class="module-stats">
+                    <span id="currentAffairsDate"></span>
+                    <span style="color: #8b5cf6;"><i class="fas fa-circle" style="font-size: 6px;"></i> 5 New Articles</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 85%; background: linear-gradient(135deg, #8b5cf6, #c084fc);"></div></div>
+                <div class="module-footer" style="color: #8b5cf6;">Read Now <i class="fas fa-arrow-right"></i></div>
+            </a>
+
+            <a href="ncert-module.html" class="glass-card module-card">
+                <div class="module-icon ncert-icon"><i class="fas fa-book-open"></i></div>
+                <div class="module-title">NCERT Base</div>
+                <div class="module-stats">
+                    <span>Polity Class 11</span>
+                    <span style="color: var(--warning);">Chapter 3</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 30%; background: linear-gradient(135deg, #f59e0b, #fbbf24);"></div></div>
+                <div class="module-footer" style="color: var(--warning);">Resume <i class="fas fa-arrow-right"></i></div>
+            </a>
+
+        </div>
+
+        <div class="two-col-grid">
+            <!-- Daily Question -->
+            <div class="glass-card daily-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                    <div>
+                        <h2 class="section-title" style="margin-bottom: 5px;"><i class="fas fa-star" style="color: var(--warning);"></i> Daily Prelims Challenge</h2>
+                        <p style="color: var(--text-muted); font-family: var(--font-ui); font-size: 0.9rem;" id="dqAttempts">12,450 students attempted today</p>
+                    </div>
+                    <div class="timer-box" id="dqTimer">23:45:10</div>
+                </div>
+
+                <div class="rewards">
+                    <span class="reward-pill" style="color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3);"><i class="fas fa-level-up-alt"></i> +<span id="dqXp">50</span> XP</span>
+                    <span class="reward-pill" style="color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3);"><i class="fas fa-coins"></i> +<span id="dqCoins">20</span> Coins</span>
+                    <span class="reward-pill" style="color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3);"><i class="fas fa-fire"></i> <span id="dqDiff">Hard</span></span>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 25px;">
+                    <p style="font-size: 1.1rem; line-height: 1.6; font-family: var(--font-ui);" id="dqText">Loading question...</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="openDailyQuestion()"><i class="fas fa-play"></i> Attempt Now</button>
+            </div>
+
+            <!-- Revision Areas -->
+            <div class="glass-card">
+                <h2 class="section-title" style="margin-bottom: 10px;">Revision Areas</h2>
+                <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; font-family: var(--font-ui);">Practice units as per your past MCQ attempts</p>
+                
+                <div id="revisionProgressBar" style="display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 20px; gap: 4px;">
+                    <!-- Populated by JS -->
+                </div>
+                
+                <div id="revisionLegend" style="display: flex; justify-content: space-between; margin-bottom: 30px; text-align: left; font-family: var(--font-ui);">
+                    <!-- Populated by JS -->
+                </div>
+
+                <button class="btn" onclick="window.location.href='learn.html'" style="width: 100%; justify-content: center; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.3); font-size: 1.05rem;">Practice Revision Units <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Important Topics -->
+        <div class="glass-card" style="margin-bottom: 40px; padding: 30px;">
+            <h2 class="section-title" style="margin-bottom: 20px; justify-content: center;">Important Topics</h2>
+            <div class="topic-banner">
+                Most repeated topics in last 5-year PYQs
+            </div>
+            
+            <div class="topics-container" id="topicsContainer">
+                <div class="topic-chip-simple">Mauryan Empire</div>
+                <div class="topic-chip-simple">Climate Change</div>
+                <div class="topic-chip-simple">Early Cholas</div>
+                <div class="topic-chip-simple">Environment</div>
+                <div class="topic-chip-simple">Continents</div>
+                <div class="topic-chip-simple">Parliament</div>
+                <div class="topic-chip-simple" onclick="openAllTopicsModal()" style="font-weight: bold; background: rgba(59, 130, 246, 0.1); border-color: var(--primary); color: var(--primary);">... View All</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Daily Question Modal -->
+    <div class="modal-overlay" id="dqModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeDailyQuestion()">&times;</button>
+            <h3 style="margin-bottom: 20px; color: var(--warning);"><i class="fas fa-star"></i> Daily Challenge</h3>
+            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; font-family: var(--font-ui);" id="modalQText"></p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;" id="modalOptions">
+                <!-- Options populated by JS -->
+            </div>
+
+            <div id="modalResult" style="display: none; margin-top: 20px; padding: 15px; border-radius: 10px; border: 1px solid;">
+                <h4 id="resultTitle" style="margin-bottom: 10px;"></h4>
+                <p id="resultExp" style="font-size: 0.9rem; color: var(--text-muted); font-family: var(--font-ui);"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Important Topics Modal -->
+    <div class="modal-overlay" id="allTopicsModal">
+        <div class="modal" style="max-width: 900px; max-height: 85vh; overflow-y: auto; padding: 40px;">
+            <button class="close-btn" onclick="closeAllTopicsModal()">&times;</button>
+            <h3 style="margin-bottom: 30px; color: var(--primary); font-size: 1.8rem; text-align: center;"><i class="fas fa-list-ul"></i> All Important Topics</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <!-- Science & Technology -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-microscope" style="color: var(--primary); margin-right: 5px;"></i> Science & Technology</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Biotechnology</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Life Sciences</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Emerging Technologies</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Defence Technology</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Core Concepts & Foundational Science</li>
+                    </ul>
+                </div>
+
+                <!-- Ancient History -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-landmark" style="color: var(--primary); margin-right: 5px;"></i> Ancient History</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Mauryan Empire</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Janapadas and Mahajanapadas</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Gupta Empire</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Early Cholas</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Indus Valley Civilisation</li>
+                    </ul>
+                </div>
+
+                <!-- Medieval History -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-chess-rook" style="color: var(--primary); margin-right: 5px;"></i> Medieval History</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> The Deccan Kingdoms</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Pallavas</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Rajputs</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Tughlaq Dynasty</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Challenges faced</li>
+                    </ul>
+                </div>
+
+                <!-- Modern History -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-flag" style="color: var(--primary); margin-right: 5px;"></i> Modern History</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Non-Cooperation and Khilafat Moveme...</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Socio-Religious Reform Movements</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Towards Freedom and Partition</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Towards Quit India Movement</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Legal Developments</li>
+                    </ul>
+                </div>
+
+                <!-- Art & Culture -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-palette" style="color: var(--primary); margin-right: 5px;"></i> Art & Culture</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Other Aspects of Indian Culture</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Indian Literature</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Religions in India</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Art and Architecture</li>
+                    </ul>
+                </div>
+
+                <!-- Indian Polity -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-gavel" style="color: var(--primary); margin-right: 5px;"></i> Indian Polity</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Parliament</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Constituents of Indian Constitution</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Fundamental Rights</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Centre-State Relations</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Concept and Salient Features of the Constitution</li>
+                    </ul>
+                </div>
+
+                <!-- Economy -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-chart-line" style="color: var(--primary); margin-right: 5px;"></i> Economy</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Money, Banking and Monetary Policy</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Finance and Financial Markets</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Public Finance in India</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Trade and External Sector</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Infrastructure and Investment Models...</li>
+                    </ul>
+                </div>
+
+                <!-- International Relations -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-globe" style="color: var(--primary); margin-right: 5px;"></i> International Relations</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Regional Groupings</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Multilateral Groupings</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> India and its Neighbourhood Relations</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> The United Nations</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> India and West Asia Relations</li>
+                    </ul>
+                </div>
+
+                <!-- Social Issues & Schemes -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-users" style="color: var(--primary); margin-right: 5px;"></i> Social Issues & Schemes</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Economy and Finance</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Health and Welfare</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Environment</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Governance</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Types of Schemes</li>
+                    </ul>
+                </div>
+
+                <!-- Environment & Ecology -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-leaf" style="color: var(--primary); margin-right: 5px;"></i> Environment & Ecology</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Environmental Pollution</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Climate Change Mitigation</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Climate Change</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Institutional Measures for Environment...</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Indian Biodiversity - Fauna</li>
+                    </ul>
+                </div>
+
+                <!-- Indian Geography -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-map" style="color: var(--primary); margin-right: 5px;"></i> Indian Geography</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Drainage System</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Major Physical Divisions of India</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Indian Soils</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Mineral Resource</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Land Resource in India</li>
+                    </ul>
+                </div>
+                
+                <!-- World Geography -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-earth-americas" style="color: var(--primary); margin-right: 5px;"></i> World Geography</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Continents</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> World Economic Geography</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Climatic Regions of the World</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Oceans</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> World Human Geography</li>
+                    </ul>
+                </div>
+
+                <!-- Physical Geography -->
+                <div class="topic-category">
+                    <h4 style="color: var(--text-main); margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); font-size: 1.1rem;"><i class="fas fa-mountain" style="color: var(--primary); margin-right: 5px;"></i> Physical Geography</h4>
+                    <ul style="list-style: none; padding-left: 0; color: var(--text-muted); font-size: 0.95rem; font-family: var(--font-ui); line-height: 1.8;">
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Atmosphere</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Movement of Earth</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Tectonics</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Ocean</li>
+                        <li><i class="fas fa-angle-right" style="color: var(--primary); margin-right: 5px;"></i> Rocks</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Integrate API layer -->
+    <script src="storage.js"></script>
+    <script src="api.js"></script>
+    <script>
+        // Ensure API is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!window.API) {
+                console.error("Mock DB API not found! Ensure api.js is loaded.");
+                return;
+            }
+
+            // 1. Load User Data
+            const user = window.API.getUser();
+            document.getElementById('userName').innerText = user.name;
+            document.getElementById('userAvatar').innerText = user.name.charAt(0);
+            document.getElementById('userXp').innerText = user.xp.toLocaleString();
+            document.getElementById('streakCount').innerText = user.streak;
+
+            // 2. Load Daily Question
+            const dq = window.API.getDailyQuestion();
+            document.getElementById('dqText').innerText = dq.text;
+            document.getElementById('dqXp').innerText = dq.xp;
+            document.getElementById('dqCoins').innerText = dq.coins;
+            document.getElementById('dqDiff').innerText = dq.difficulty;
+            document.getElementById('dqAttempts').innerText = dq.attempts.toLocaleString() + " students attempted today";
+
+            // 3. Load Revision Areas Dynamically
+            renderRevisionAreas();
+            
+            // 4. (Removed JS for Important Topics as it's static for the design)
+
+            // Set dynamic Current Affairs date
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const today = new Date();
+            const caDateElem = document.getElementById('currentAffairsDate');
+            if (caDateElem) {
+                caDateElem.innerText = `${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+            }
+
+            // Countdown Timer simulation
+            setInterval(() => {
+                const now = new Date();
+                const eod = new Date();
+                eod.setHours(23, 59, 59, 999);
+                const diff = eod - now;
+                const h = Math.floor(diff / 3600000).toString().padStart(2, '0');
+                const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+                const s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+                document.getElementById('dqTimer').innerText = `${h}:${m}:${s}`;
+            }, 1000);
+        });
+
+        // Interactive Modals
+        function openDailyQuestion() {
+            const dq = window.API.getDailyQuestion();
+            document.getElementById('modalQText').innerText = dq.text;
+            
+            const optionsDiv = document.getElementById('modalOptions');
+            optionsDiv.innerHTML = '';
+            document.getElementById('modalResult').style.display = 'none';
+
+            dq.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.cssText = 'background: rgba(0,0,0,0.03); border: 1px solid var(--border-glass); color: var(--text-main); justify-content: flex-start; text-align: left; padding: 15px;';
+                btn.innerHTML = `<span style="background: rgba(0,0,0,0.05); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold;">${String.fromCharCode(65+idx)}</span> ${opt}`;
+                btn.onclick = () => submitAnswer(idx, btn);
+                optionsDiv.appendChild(btn);
+            });
+
+            document.getElementById('dqModal').style.display = 'flex';
+        }
+
+        function closeDailyQuestion() {
+            document.getElementById('dqModal').style.display = 'none';
+        }
+
+        function openAllTopicsModal() {
+            document.getElementById('allTopicsModal').style.display = 'flex';
+        }
+
+        function closeAllTopicsModal() {
+            document.getElementById('allTopicsModal').style.display = 'none';
+        }
+
+        function renderRevisionAreas() {
+            const progress = window.API.getProgress();
+            const stats = progress.revisionStats || { strong: 4, average: 6, weak: 7, lowPractice: 128 };
+            
+            const total = stats.strong + stats.average + stats.weak + stats.lowPractice;
+            
+            const pStrong = total > 0 ? (stats.strong / total) * 100 : 0;
+            const pAvg = total > 0 ? (stats.average / total) * 100 : 0;
+            const pWeak = total > 0 ? (stats.weak / total) * 100 : 0;
+            const pLow = total > 0 ? (stats.lowPractice / total) * 100 : 0;
+            
+            document.getElementById('revisionProgressBar').innerHTML = `
+                <div style="width: ${pStrong}%; background: var(--success); border-radius: 5px; transition: width 0.4s ease-out;"></div>
+                <div style="width: ${pAvg}%; background: #f97316; border-radius: 5px; transition: width 0.4s ease-out;"></div>
+                <div style="width: ${pWeak}%; background: var(--danger); border-radius: 5px; transition: width 0.4s ease-out;"></div>
+                <div style="width: ${pLow}%; background: #eab308; border-radius: 5px; transition: width 0.4s ease-out;"></div>
+            `;
+            
+            document.getElementById('revisionLegend').innerHTML = `
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--text-main); font-weight: 500; margin-bottom: 5px;">Strong</div>
+                    <div style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 5px;"><span style="color: var(--success); font-size: 1.2rem;">■</span> ${stats.strong}</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--text-main); font-weight: 500; margin-bottom: 5px;">Average</div>
+                    <div style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 5px;"><span style="color: #f97316; font-size: 1.2rem;">■</span> ${stats.average}</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--text-main); font-weight: 500; margin-bottom: 5px;">Weak</div>
+                    <div style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 5px;"><span style="color: var(--danger); font-size: 1.2rem;">■</span> ${stats.weak}</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.9rem; color: var(--text-main); font-weight: 500; margin-bottom: 5px;">Low Practice</div>
+                    <div style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 5px;"><span style="color: #eab308; font-size: 1.2rem;">■</span> ${stats.lowPractice}</div>
+                </div>
+            `;
+        }
+
+        function submitAnswer(selectedIndex, btnElement) {
+            const result = window.API.submitAnswer('dq_001', selectedIndex);
+            
+            // Disable all buttons
+            const buttons = document.getElementById('modalOptions').children;
+            for(let b of buttons) {
+                b.disabled = true;
+                b.style.opacity = '0.5';
+            }
+
+            const resDiv = document.getElementById('modalResult');
+            const resTitle = document.getElementById('resultTitle');
+            const resExp = document.getElementById('resultExp');
+            
+            resDiv.style.display = 'block';
+            resExp.innerText = result.explanation;
+
+            if (result.isCorrect) {
+                btnElement.style.background = 'rgba(16, 185, 129, 0.2)';
+                btnElement.style.borderColor = 'var(--success)';
+                btnElement.style.opacity = '1';
+                resDiv.style.borderColor = 'var(--success)';
+                resDiv.style.background = 'rgba(16, 185, 129, 0.1)';
+                resTitle.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success);"></i> Correct! +50 XP`;
+                resTitle.style.color = 'var(--success)';
+                
+                // Update header XP
+                document.getElementById('userXp').innerText = result.newXp.toLocaleString();
+            } else {
+                btnElement.style.background = 'rgba(239, 68, 68, 0.2)';
+                btnElement.style.borderColor = 'var(--danger)';
+                btnElement.style.opacity = '1';
+                
+                // Highlight correct one
+                buttons[result.correctOption].style.background = 'rgba(16, 185, 129, 0.2)';
+                buttons[result.correctOption].style.borderColor = 'var(--success)';
+                buttons[result.correctOption].style.opacity = '1';
+
+                resDiv.style.borderColor = 'var(--danger)';
+                resDiv.style.background = 'rgba(239, 68, 68, 0.1)';
+                resTitle.innerHTML = `<i class="fas fa-times-circle" style="color: var(--danger);"></i> Incorrect`;
+                resTitle.style.color = 'var(--danger)';
+            }
+            
+            // Re-render revision areas to reflect the updated stats
+            renderRevisionAreas();
+        }
+    </script>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

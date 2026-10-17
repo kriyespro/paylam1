@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Evaluation | THE BASICS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        .page-container { max-width: 900px; margin: 40px auto; padding: 20px; }
+        .eval-report { background: white; border-radius: 12px; padding: 30px; box-shadow: var(--card-shadow); }
+        .score-circle { width: 100px; height: 100px; border-radius: 50%; border: 8px solid #10B981; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--primary); margin: 0 auto 20px; }
+        .feedback-section { margin-top: 30px; }
+        .feedback-item { background: rgba(20,55,138,0.03); padding: 20px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--secondary); }
+        .feedback-item h4 { color: var(--primary); margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mains.html" class="active"><i class="fas fa-pen-nib"></i> Mains</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="page-container">
+        <h2><i class="fas fa-search-plus" style="color:var(--secondary)"></i> Sample AI Evaluation</h2>
+        <p class="text-muted" style="margin-bottom:30px;">See how our AI Engine provides detailed feedback.</p>
+        
+        <div class="eval-report">
+            <div style="text-align:center;">
+                <div class="score-circle">7.5</div>
+                <div style="color:var(--text-muted); font-weight:600; text-transform:uppercase;">Overall Score (out of 10)</div>
+            </div>
+            
+            <div class="feedback-section">
+                <div class="feedback-item">
+                    <h4><i class="fas fa-check-circle" style="color:#10B981"></i> Introduction</h4>
+                    <p>Good contextual start. You have clearly defined the key terms and set up the premise of the answer effectively.</p>
+                </div>
+                <div class="feedback-item" style="border-left-color: #F59E0B;">
+                    <h4><i class="fas fa-exclamation-circle" style="color:#F59E0B"></i> Body Structure</h4>
+                    <p>While the points are relevant, structuring them under subheadings would improve readability. Consider adding more contemporary examples from recent current affairs.</p>
+                </div>
+                <div class="feedback-item" style="border-left-color: #3B82F6;">
+                    <h4><i class="fas fa-info-circle" style="color:#3B82F6"></i> Conclusion</h4>
+                    <p>A balanced and forward-looking conclusion. Suggestion: Mention a relevant SDG or committee recommendation to add more weight.</p>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:30px;">
+                <a href="evaluate.html" class="btn btn-primary" style="display:inline-flex;">Evaluate My Answer Now</a>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

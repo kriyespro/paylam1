@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mains | THE BASICS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        .mains-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Top Banner */
+        .eval-banner {
+            background: rgba(20, 55, 138, 0.1);
+            border: 1px solid rgba(20, 55, 138, 0.2);
+            color: var(--secondary);
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .eval-banner .upgrade-link {
+            color: var(--secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .eval-banner .highlight {
+            color: #10B981;
+            font-weight: 700;
+        }
+
+        /* Hero Card */
+        .eval-hero-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--white);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .eval-hero-card .hero-image-placeholder {
+            width: 150px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-5deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            color: var(--primary);
+            position: relative;
+        }
+        .hero-image-placeholder::after {
+            content: '\f303'; /* Pen icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 3rem;
+            color: var(--accent);
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            background: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(5deg);
+        }
+        .hero-image-placeholder .line {
+            width: 70%;
+            height: 6px;
+            background: #E2E8F0;
+            margin: 5px 0;
+            border-radius: 3px;
+        }
+        .hero-image-placeholder .line.red { background: #FCA5A5; width: 60%; }
+        .hero-image-placeholder .line.green { background: #6EE7B7; width: 80%; }
+        
+        .eval-hero-card h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .btn-evaluate {
+            background: #3B82F6; /* Bright blue like in screenshot */
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            display: block;
+        }
+        .btn-evaluate:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+
+        .try-sample-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            text-decoration-color: rgba(255, 255, 255, 0.4);
+            transition: all 0.2s;
+        }
+        .try-sample-link:hover {
+            color: white;
+            text-decoration-color: white;
+        }
+
+        /* Menu List */
+        .mains-menu-list {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .mains-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-main);
+            transition: background 0.2s;
+        }
+        .mains-menu-item:last-child {
+            border-bottom: none;
+        }
+        .mains-menu-item:hover {
+            background: rgba(0, 15, 54, 0.02);
+        }
+
+        .mains-menu-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .bg-blue { background: #3B82F6; }
+        .bg-teal { background: #14B8A6; }
+        .bg-orange { background: #F59E0B; }
+
+        .mains-menu-content {
+            flex: 1;
+        }
+        .mains-menu-content h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+        .mains-menu-content .sub-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .avatars-group {
+            display: flex;
+        }
+        .avatars-group img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid white;
+            margin-left: -5px;
+        }
+        .avatars-group img:first-child {
+            margin-left: 0;
+        }
+
+        .mains-menu-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="learn.html"><i class="fas fa-book-open"></i> Learn</a></li>
+                <li><a href="prelims.html"><i class="fas fa-clipboard-check"></i> Prelims</a></li>
+                <li><a href="mains.html" class="active"><i class="fas fa-pen-nib"></i> Mains</a></li>
+
+                <li><a href="news.html"><i class="far fa-newspaper"></i> News</a></li>
+
+                <li><a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a></li>
+            </ul>
+            
+            <div class="nav-right">
+                <span class="nav-divider">|</span>
+                <div class="nav-buttons">
+                    <a href="#" id="navLoginBtn" class="btn btn-outline"><i class="fas fa-user"></i> Login</a>
+                    <a href="#" id="navSignupBtn" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a>
+                </div>
+                <!-- Mobile Login Button --><a href="#" class="mobile-login-btn" onclick="openAuthModal('login');return false;"><i class="fas fa-user"></i> Login</a>
+                <div class="mobile-menu-btn" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="mains-container">
+        
+
+        <!-- Hero Card -->
+        <div class="eval-hero-card" onclick="window.location.href='evaluate.html'" style="cursor: pointer;">
+            <!-- Simulated copy graphic -->
+            <div class="hero-image-placeholder">
+                <div class="line"></div>
+                <div class="line red"></div>
+                <div class="line"></div>
+                <div class="line green"></div>
+                <div class="line"></div>
+            </div>
+
+            <h1>Instant Answer<br>Evaluation</h1>
+            
+            <a href="evaluate.html" class="btn-evaluate" style="text-decoration:none; display:block; text-align:center;">Evaluate Answer</a>
+            
+            <a href="sample-evaluation.html" class="try-sample-link" onclick="event.stopPropagation()">Try Sample Evaluation</a>
+        </div>
+
+        <!-- Menu List -->
+        <div class="mains-menu-list">
+            
+            <a href="daily-mains.html" class="mains-menu-item">
+                <div class="mains-menu-icon bg-blue">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+                <div class="mains-menu-content">
+                    <h3>Daily Mains Question</h3>
+                    <div class="sub-text">
+                        <div class="avatars-group">
+                            <img src="https://i.pravatar.cc/100?img=1" alt="user">
+                            <img src="https://i.pravatar.cc/100?img=2" alt="user">
+                            <img src="https://i.pravatar.cc/100?img=3" alt="user">
+                        </div>
+                        583 attempted
+                    </div>
+                </div>
+                <div class="mains-menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+            <a href="my-evaluations.html" class="mains-menu-item">
+                <div class="mains-menu-icon bg-teal">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="mains-menu-content">
+                    <h3>My Evaluations</h3>
+                    <div class="sub-text">See previous evaluations</div>
+                </div>
+                <div class="mains-menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+            <a href="mains-pyq.html" class="mains-menu-item">
+                <div class="mains-menu-icon bg-orange">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="mains-menu-content">
+                    <h3>Mains PYQs</h3>
+                    <div class="sub-text">2013 - 2026</div>
+                </div>
+                <div class="mains-menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Script to toggle mobile menu -->
+    <script src="script.js"></script>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

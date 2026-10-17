@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Questions | THE BASICS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        body { background: var(--bg-main); font-family: "Poppins", sans-serif; }
+        .aq-container { max-width: 760px; margin: 0 auto; padding: 20px 16px 100px; }
+        .aq-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+        .aq-header a { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: var(--card-bg); color: var(--text-main); text-decoration: none; border: 1px solid var(--border-color); font-size: 1rem; transition: all 0.2s; }
+        .aq-header a:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .aq-header h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); margin: 0; flex: 1; text-align: center; }
+        .aq-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+        .aq-sum-card { background: var(--card-bg); border-radius: 14px; padding: 16px 12px; text-align: center; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); }
+        .aq-sum-card .sum-num { font-size: 1.8rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+        .aq-sum-card .sum-lbl { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+        .sum-total .sum-num { color: var(--primary); }
+        .sum-attempted .sum-num { color: #10B981; }
+        .sum-unattempted .sum-num { color: #F59E0B; }
+        .aq-tabs { display: flex; background: var(--card-bg); border-radius: 12px; padding: 5px; border: 1px solid var(--border-color); margin-bottom: 22px; box-shadow: var(--card-shadow); }
+        .aq-tab { flex: 1; padding: 10px; text-align: center; border-radius: 9px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); transition: all 0.25s ease; user-select: none; }
+        .aq-tab.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(20,55,138,0.3); }
+        .aq-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .aq-filter-chip { padding: 6px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 1.5px solid var(--border-color); background: var(--card-bg); color: var(--text-muted); transition: all 0.2s; }
+        .aq-filter-chip.active, .aq-filter-chip:hover { border-color: var(--primary); color: var(--primary); background: rgba(20,55,138,0.07); }
+        .aq-question-card { background: var(--card-bg); border-radius: 16px; padding: 20px; margin-bottom: 14px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .aq-question-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(20,55,138,0.12); }
+        .aq-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .aq-card-top .q-text { font-size: 1rem; font-weight: 600; color: var(--text-main); line-height: 1.55; flex: 1; }
+        .aq-status-badge { flex-shrink: 0; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-attempted { background: rgba(16,185,129,0.12); color: #059669; border: 1px solid rgba(16,185,129,0.3); }
+        .badge-unattempted { background: rgba(245,158,11,0.12); color: #B45309; border: 1px solid rgba(245,158,11,0.3); }
+        .aq-card-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .aq-tag { padding: 4px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; }
+        .tag-blue { background: rgba(20,55,138,0.1); color: var(--secondary); }
+        .tag-purple { background: rgba(139,92,246,0.1); color: #7C3AED; }
+        .tag-gray { background: #F3F4F6; color: var(--text-muted); }
+        .aq-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px; }
+        .aq-card-footer .date { font-size: 0.82rem; color: var(--text-muted); }
+        .aq-card-footer .action-link { font-size: 0.85rem; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .aq-card-footer .action-link:hover { text-decoration: underline; }
+        .aq-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); display: none; }
+        .aq-empty i { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; display: block; }
+        .aq-empty p { font-size: 1rem; font-weight: 500; }
+        .aq-section-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 12px; margin-top: 20px; padding-left: 4px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mains.html" class="active"><i class="fas fa-pen-nib"></i> Mains</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="aq-container">
+        <div class="aq-header">
+            <a href="daily-mains.html"><i class="fas fa-arrow-left"></i></a>
+            <h1>All Questions</h1>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="aq-summary">
+            <div class="aq-sum-card sum-total"><div class="sum-num" id="count-total">0</div><div class="sum-lbl">Total</div></div>
+            <div class="aq-sum-card sum-attempted"><div class="sum-num" id="count-attempted">0</div><div class="sum-lbl">Attempted</div></div>
+            <div class="aq-sum-card sum-unattempted"><div class="sum-num" id="count-unattempted">0</div><div class="sum-lbl">Unattempted</div></div>
+        </div>
+
+        <div class="aq-tabs">
+            <div class="aq-tab active" id="tab-all" onclick="switchTab('all')">All</div>
+            <div class="aq-tab" id="tab-attempted" onclick="switchTab('attempted')">Attempted</div>
+            <div class="aq-tab" id="tab-unattempted" onclick="switchTab('unattempted')">Unattempted</div>
+        </div>
+
+        <div class="aq-filters">
+            <div class="aq-filter-chip active" onclick="switchType('all', this)">All Types</div>
+            <div class="aq-filter-chip" onclick="switchType('mains', this)">Mains</div>
+            <div class="aq-filter-chip" onclick="switchType('prelims', this)">Prelims</div>
+        </div>
+
+        <div id="questions-list"></div>
+        <div class="aq-empty" id="empty-state">
+            <i class="fas fa-clipboard-list"></i>
+            <p>No questions found in this category.</p>
+        </div>
+    </div>
+
+    <a href="#" onclick="history.back(); return false;" class="floating-back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+    <script>
+        const questions = [
+            { id:1, type:'mains', subject:'GS 2', topic:'Indian Polity', marks:'15 Marks', text:'"The basic structure doctrine has protected the Indian Constitution from losing its essence, but it has also led to judicial overreach." Critically analyze this statement.', date:'Sep 6, 2026', attempted:true },
+            { id:2, type:'mains', subject:'GS 3', topic:'Internal Security', marks:'10 Marks', text:'Discuss the challenges posed by Left Wing Extremism in central India and suggest measures to address them.', date:'Sep 5, 2026', attempted:true },
+            { id:3, type:'mains', subject:'GS 1', topic:'History & Culture', marks:'15 Marks', text:'How did the Bhakti movement contribute to social reform and cultural integration in medieval India?', date:'Sep 4, 2026', attempted:false },
+            { id:4, type:'mains', subject:'GS 4', topic:'Ethics', marks:'10 Marks', text:'What do you understand by the term "crisis of conscience"? Describe with the help of an example from the public service.', date:'Sep 3, 2026', attempted:false },
+            { id:5, type:'mains', subject:'GS 2', topic:'Governance', marks:'15 Marks', text:'Examine the role of civil society organizations in strengthening democratic governance in India.', date:'Sep 2, 2026', attempted:true },
+            { id:6, type:'prelims', subject:'Polity', topic:'Constitution', marks:'1 Mark', text:'Which schedule of the Indian Constitution contains the Anti-Defection Law?', date:'Sep 6, 2026', attempted:true },
+            { id:7, type:'prelims', subject:'History', topic:'Ancient India', marks:'1 Mark', text:'The ancient city of Lothal was part of which civilization?', date:'Sep 5, 2026', attempted:false },
+            { id:8, type:'prelims', subject:'Geography', topic:'Physical Geography', marks:'1 Mark', text:'Which of the following rivers does NOT originate from the Himalayas?', date:'Sep 4, 2026', attempted:false },
+            { id:9, type:'prelims', subject:'Economy', topic:'Fiscal Policy', marks:'1 Mark', text:'Which committee recommended the introduction of Goods and Services Tax (GST) in India?', date:'Sep 3, 2026', attempted:true },
+            { id:10, type:'prelims', subject:'Environment', topic:'Ecology', marks:'1 Mark', text:'The "Biological Diversity Act, 2002" established which of the following bodies at the national level?', date:'Sep 2, 2026', attempted:false },
+            { id:11, type:'mains', subject:'GS 3', topic:'Economy', marks:'10 Marks', text:'Critically examine the impact of e-commerce on small and medium enterprises in India.', date:'Sep 1, 2026', attempted:false },
+            { id:12, type:'prelims', subject:'Science & Tech', topic:'Space Technology', marks:'1 Mark', text:"Which mission was India's first interplanetary mission, successfully reaching the orbit of Mars?", date:'Sep 1, 2026', attempted:true }
+        ];
+
+        let currentTab = 'all';
+        let currentType = 'all';
+
+        function getFiltered() {
+            return questions.filter(q => {
+                const matchTab = currentTab === 'all' || (currentTab === 'attempted' && q.attempted) || (currentTab === 'unattempted' && !q.attempted);
+                const matchType = currentType === 'all' || q.type === currentType;
+                return matchTab && matchType;
+            });
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.aq-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            renderQuestions();
+        }
+
+        function switchType(type, el) {
+            currentType = type;
+            document.querySelectorAll('.aq-filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const filtered = getFiltered();
+            const listEl = document.getElementById('questions-list');
+            const emptyEl = document.getElementById('empty-state');
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '';
+                emptyEl.style.display = 'block';
+                return;
+            }
+            emptyEl.style.display = 'none';
+
+            const mainsList = filtered.filter(q => q.type === 'mains');
+            const prelimsList = filtered.filter(q => q.type === 'prelims');
+            let html = '';
+
+            if (mainsList.length > 0) {
+                html += '<div class="aq-section-label"><i class="fas fa-pen-nib" style="margin-right:6px;color:var(--primary)"></i>Mains Questions</div>';
+                mainsList.forEach(q => { html += buildCard(q); });
+            }
+            if (prelimsList.length > 0) {
+                html += '<div class="aq-section-label"><i class="fas fa-list-check" style="margin-right:6px;color:#7C3AED"></i>Prelims Questions</div>';
+                prelimsList.forEach(q => { html += buildCard(q); });
+            }
+
+            listEl.innerHTML = html;
+        }
+
+        function buildCard(q) {
+            const statusClass = q.attempted ? 'badge-attempted' : 'badge-unattempted';
+            const statusText = q.attempted ? 'Attempted' : 'Unattempted';
+            const typeTagClass = q.type === 'mains' ? 'tag-blue' : 'tag-purple';
+            const typeLabel = q.type === 'mains' ? 'Mains' : 'Prelims';
+            const actionHref = q.type === 'mains' ? 'evaluate.html' : 'prelims-mcq.html';
+            const actionText = q.attempted ? '<i class="fas fa-eye"></i> View' : '<i class="fas fa-pen"></i> Attempt';
+
+            return '<div class="aq-question-card" onclick="window.location.href=\''+actionHref+'\'">' +
+                '<div class="aq-card-top"><div class="q-text">'+q.text+'</div><span class="aq-status-badge '+statusClass+'">'+statusText+'</span></div>' +
+                '<div class="aq-card-tags"><span class="aq-tag '+typeTagClass+'">'+typeLabel+'</span><span class="aq-tag tag-blue">'+q.subject+'</span><span class="aq-tag tag-purple">'+q.topic+'</span><span class="aq-tag tag-gray">'+q.marks+'</span></div>' +
+                '<div class="aq-card-footer"><span class="date"><i class="far fa-calendar-alt"></i> '+q.date+'</span><a href="'+actionHref+'" class="action-link" onclick="event.stopPropagation()">'+actionText+'</a></div>' +
+                '</div>';
+        }
+
+        function animateCount(id, target) {
+            const el = document.getElementById(id);
+            let start = 0;
+            const step = Math.ceil(target / 30);
+            const timer = setInterval(() => {
+                start += step;
+                if (start >= target) { el.textContent = target; clearInterval(timer); }
+                else el.textContent = start;
+            }, 30);
+        }
+
+        renderQuestions();
+        animateCount('count-total', questions.length);
+        animateCount('count-attempted', questions.filter(q => q.attempted).length);
+        animateCount('count-unattempted', questions.filter(q => !q.attempted).length);
+    </script>
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice MCQs | THE BASICS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+        
+        .practice-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--dashboard-bg);
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Top Header */
+        .practice-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .close-btn {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            cursor: pointer;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        .practice-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+            padding-right: 25px; /* Offset for close btn */
+        }
+
+        /* Question Numbers Navigator */
+        .q-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .q-nav::-webkit-scrollbar { display: none; }
+
+        .q-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .q-number.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 15, 54, 0.2);
+        }
+
+        .q-number.active::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .q-number.skipped {
+            background: #FCE8E8;
+            color: #DC2626;
+            text-decoration: line-through;
+        }
+        
+        .q-number.answered-correct {
+            background: #DEF7EC;
+            color: #03543F;
+        }
+
+        .q-number.answered-wrong {
+            background: #FDE8E8;
+            color: #9B1C1C;
+        }
+
+        /* Question Text */
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        /* Options */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--card-bg);
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+            background: rgba(20, 55, 138, 0.03);
+        }
+
+        .option-letter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .option-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Option States */
+        .option-card.selected {
+            border-color: var(--primary);
+            background: rgba(20, 55, 138, 0.05);
+        }
+        .option-card.selected .option-letter {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .option-card.correct {
+            border-color: #059669;
+            background: #ECFDF5;
+        }
+        .option-card.correct .option-letter {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+
+        .option-card.wrong {
+            border-color: #DC2626;
+            background: #FEF2F2;
+        }
+        .option-card.wrong .option-letter {
+            background: #DC2626;
+            color: white;
+            border-color: #DC2626;
+        }
+
+        /* Action Buttons */
+        .actions-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-skip {
+            background: #FFFBEB;
+            color: #D97706;
+            border: 1px solid #FCD34D;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-skip:hover { background: #FEF3C7; }
+
+        .btn-flag {
+            background: #FEF2F2;
+            color: #DC2626;
+            border: 1px solid #FECACA;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-flag:hover { background: #FEE2E2; }
+
+        /* Explanation Box */
+        .explanation-box {
+            background: rgba(20, 55, 138, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .explanation-header {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explanation-text {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            margin-top: auto;
+            display: flex;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-prev {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+        .btn-prev:hover { background: var(--border-color); }
+
+        .btn-next {
+            flex-grow: 1;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-next:hover { background: var(--secondary); }
+        .btn-next.orange { background: #F59E0B; }
+        .btn-next.orange:hover { background: #D97706; }
+
+        .status-message {
+            text-align: center;
+            color: #D97706;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="practice-container">
+        <!-- Header -->
+        <div class="practice-header">
+            <a href="news.html" class="close-btn"><i class="fas fa-times"></i></a>
+            <h1 class="practice-title">Practice</h1>
+        </div>
+
+        <!-- Question Navigation -->
+        <div class="q-nav" id="qNav">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Question Content -->
+        <div id="questionContent">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Options -->
+        <div class="options-list" id="optionsList">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-row">
+            <button class="btn-skip" id="btnSkip" onclick="skipQuestion()">Skip & Reveal</button>
+            <button class="btn-flag" id="btnFlag" onclick="toggleFlag()"><i class="far fa-flag"></i></button>
+        </div>
+
+        <!-- Explanation -->
+        <div class="explanation-box" id="explanationBox">
+            <div class="explanation-header"><i class="fas fa-sparkles"></i> Explanation</div>
+            <div class="explanation-text" id="explanationText"></div>
+        </div>
+
+        <!-- Status Message -->
+        <div class="status-message" id="statusMessage">
+            <i class="fas fa-ban"></i> You skipped this
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="btn-prev" onclick="prevQuestion()"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn-next" id="btnNext" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <script src="prelims-questions.js"></script>
+    <script>
+        // Mock Data - loaded from prelims-questions.js
+        const questions = prelimsQuestions;
+
+
+        let currentIndex = 0;
+        let userState = Array(questions.length).fill(null); // 'skipped', 'A', 'B', etc.
+        let flagged = Array(questions.length).fill(false);
+
+        function init() {
+            renderNav();
+            renderQuestion();
+        }
+
+        function renderNav() {
+            const nav = document.getElementById('qNav');
+            nav.innerHTML = '';
+            questions.forEach((q, index) => {
+                const el = document.createElement('div');
+                el.className = 'q-number';
+                el.textContent = index + 1;
+                el.onclick = () => { currentIndex = index; renderQuestion(); };
+                
+                if (index === currentIndex) el.classList.add('active');
+                
+                if (userState[index] === 'skipped') {
+                    el.classList.add('skipped');
+                } else if (userState[index] !== null) {
+                    if (userState[index] === questions[index].correctAnswer) {
+                        el.classList.add('answered-correct');
+                    } else {
+                        el.classList.add('answered-wrong');
+                    }
+                }
+                nav.appendChild(el);
+            });
+            // Auto scroll nav to active
+            const activeEl = nav.querySelector('.active');
+            if(activeEl) activeEl.scrollIntoView({ behavior: "smooth", inline: "center" });
+        }
+
+        function renderQuestion() {
+            const q = questions[currentIndex];
+            const state = userState[currentIndex];
+            const isFlagged = flagged[currentIndex];
+
+            // Render text
+            document.getElementById('questionContent').innerHTML = `<div class="question-text">${q.text}</div>`;
+
+            // Render options
+            const optionsHtml = q.options.map(opt => {
+                let cardClass = 'option-card';
+                if (state !== null && state !== 'skipped') {
+                    // Show answers
+                    if (opt.letter === q.correctAnswer) cardClass += ' correct';
+                    else if (state === opt.letter) cardClass += ' wrong';
+                }
+
+                return `
+                    <div class="${cardClass}" onclick="selectOption('${opt.letter}')">
+                        <div class="option-letter">${opt.letter}</div>
+                        <div class="option-text">${opt.text}</div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('optionsList').innerHTML = optionsHtml;
+
+            // Handle Flag
+            const flagBtn = document.getElementById('btnFlag');
+            if (isFlagged) {
+                flagBtn.innerHTML = '<i class="fas fa-flag"></i>';
+                flagBtn.style.color = 'white';
+                flagBtn.style.background = '#DC2626';
+            } else {
+                flagBtn.innerHTML = '<i class="far fa-flag"></i>';
+                flagBtn.style.color = '#DC2626';
+                flagBtn.style.background = '#FEF2F2';
+            }
+
+            // Handle Explaination & Actions
+            const explainBox = document.getElementById('explanationBox');
+            const skipBtn = document.getElementById('btnSkip');
+            const statusMsg = document.getElementById('statusMessage');
+            const nextBtn = document.getElementById('btnNext');
+
+            if (state !== null) {
+                // Answered or Skipped
+                explainBox.style.display = 'block';
+                document.getElementById('explanationText').innerHTML = q.explanation;
+                skipBtn.style.display = 'none';
+
+                if (state === 'skipped') {
+                    statusMsg.style.display = 'block';
+                    statusMsg.innerHTML = '<i class="fas fa-ban"></i> You skipped this';
+                } else {
+                    statusMsg.style.display = 'none';
+                }
+
+                nextBtn.classList.add('orange');
+            } else {
+                // Not answered
+                explainBox.style.display = 'none';
+                skipBtn.style.display = 'block';
+                statusMsg.style.display = 'none';
+                nextBtn.classList.remove('orange');
+            }
+
+            // Update nav rendering
+            renderNav();
+        }
+
+        function selectOption(letter) {
+            if (userState[currentIndex] !== null) return; // Already answered
+            userState[currentIndex] = letter;
+            renderQuestion();
+        }
+
+        function skipQuestion() {
+            if (userState[currentIndex] !== null) return;
+            userState[currentIndex] = 'skipped';
+            renderQuestion();
+        }
+
+        function toggleFlag() {
+            flagged[currentIndex] = !flagged[currentIndex];
+            renderQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                alert("Practice completed! Great job.");
+                window.location.href = 'news.html';
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

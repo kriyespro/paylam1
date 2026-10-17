@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn | THE BASICS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        .learn-hero {
+            padding: 100px 20px 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+        .learn-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+        }
+        .learn-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        /* Top Subjects Section (imported from index.html) */
+        .top-subjects {
+            padding: 80px 0;
+            background: var(--bg-main);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <a href="index.html"><img src="images/logo.png" alt="The Basics Logo" class="logo-image"></a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="learn.html" class="active"><i class="fas fa-book-open"></i> Learn</a></li>
+                <li><a href="prelims.html"><i class="fas fa-clipboard-check"></i> Prelims</a></li>
+                <li><a href="mains.html"><i class="fas fa-pen-nib"></i> Mains</a></li>
+                <li><a href="news.html"><i class="far fa-newspaper"></i> News</a></li>
+
+                <li><a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a></li>
+            </ul>
+            
+            <div class="nav-right">
+                <span class="nav-divider">|</span>
+                <div class="nav-buttons">
+                    <a href="#" id="navLoginBtn" class="btn btn-outline" onclick="openAuthModal('login');return false;"><i class="fas fa-user"></i> Login</a>
+                    <a href="#" id="navSignupBtn" class="btn btn-primary" onclick="openAuthModal('signup');return false;"><i class="fas fa-user-plus"></i> Sign Up</a>
+                </div>
+                <!-- Mobile Login Button --><a href="#" class="mobile-login-btn" onclick="openAuthModal('login');return false;"><i class="fas fa-user"></i> Login</a>
+                <div class="mobile-menu-btn" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="learn-hero">
+        <div class="container">
+            <h1>Master General Studies</h1>
+            <p>Select a subject to begin your comprehensive learning journey structured by top educators.</p>
+        </div>
+    </section>
+
+    <!-- Top Subjects Section -->
+    <section class="top-subjects" id="subject">
+        <div class="container">
+            <div class="section-header-row">
+                <div class="header-line"></div>
+                <div class="section-title-pill" style="background: var(--white); color: var(--primary); border: 2px solid var(--primary);">
+                    <i class="fas fa-book-open" style="color: var(--primary);"></i> CHOOSE A SUBJECT
+                </div>
+                <div class="header-line-right"></div>
+            </div>
+            
+            <div class="subjects-grid">
+                <a href="subject-history.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-monument"></i></div>
+                    <h3>History & Culture</h3>
+                </a>
+                <a href="subject-geography.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-globe-americas"></i></div>
+                    <h3>Geography</h3>
+                </a>
+                <a href="subject-polity.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-landmark"></i></div>
+                    <h3>Indian Polity</h3>
+                </a>
+                <a href="subject-economy.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Economy</h3>
+                </a>
+                <a href="subject-environment.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Environment &amp; Ecology</h3>
+                </a>
+                <a href="subject-science-tech.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-microscope"></i></div>
+                    <h3>Science & Tech</h3>
+                </a>
+                <a href="subject-social-issue.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-users"></i></div>
+                    <h3>Social Issue Scheme</h3>
+                </a>
+                <a href="subject-ir.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Int. Relation</h3>
+                </a>
+                <a href="subject-governance.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h3>Governance</h3>
+                </a>
+                <a href="subject-disaster-management.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-house-damage"></i></div>
+                    <h3>Disaster Mgmt</h3>
+                </a>
+                <a href="subject-internal-security.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Internal Security</h3>
+                </a>
+                <a href="subject-ethics.html" class="subject-card">
+                    <div class="subject-icon"><i class="fas fa-yin-yang"></i></div>
+                    <h3>Ethics</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script to toggle mobile menu -->
+    <script src="script.js"></script>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

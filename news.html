@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Latest UPSC and educational news updates. Stay informed with The Basics.">
+    <title>News | THE BASICS</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar dashboard-nav">
+        <div class="nav-container">
+            <div class="logo-container">
+                <a href="index.html"><img src="images/logo.png" alt="The Basics Logo" class="logo-image"></a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="news.html" class="active"><i class="far fa-newspaper"></i> News</a></li>
+                <li><a href="prelims-mcq.html"><i class="fas fa-clipboard-check"></i> MCQ Practice</a></li>
+
+            </ul>
+            
+            <div class="nav-right" style="gap: 20px;">
+                <button id="darkModeToggle" class="btn btn-outline" style="border-radius: 50%; width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center;" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- News Header -->
+    <section class="subject-header" style="padding: 120px 20px 60px; text-align: center; background: #0A192F;">
+        <div class="container">
+            <h1 style="font-size: 3.5rem; font-weight: 800; color: white; text-transform: uppercase;">Latest News</h1>
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.85); margin-top: 15px; font-weight: 500;">Stay updated with the latest educational initiatives, UPSC updates, and current affairs.</p>
+        </div>
+    </section>
+
+    <!-- News Stack Section (Super Kalap Style) -->
+    <section style="padding: 20px 20px 80px; background: var(--bg-main); min-height: 50vh;">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            
+            <!-- Top Header -->
+            <div class="responsive-flex-between" style="margin-bottom: 20px;">
+                <div style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; color: var(--text-main);">
+                    <i class="far fa-calendar-alt" style="color: var(--primary);"></i> Today, <span id="dynamic-date">Sep 8</span>
+                </div>
+            </div>
+
+            <!-- Today's MCQs Banner -->
+            <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 12px; padding: 20px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(20, 55, 138, 0.2);">
+                <div>
+                    <h3 style="margin: 0 0 5px 0; font-size: 1.3rem;">Today's MCQs</h3>
+                    <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">479 practiced</p>
+                </div>
+                <a href="prelims-mcq.html" class="btn" style="background: white; color: var(--primary); border: none; font-weight: 600; padding: 10px 20px; border-radius: 8px;">Practice Now</a>
+            </div>
+
+            <!-- News Source Filters -->
+            <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; scrollbar-width: none;" id="news-filters">
+                <style>
+                    .news-filter-btn {
+                        white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-color); background: transparent; color: var(--text-main); cursor: pointer; font-weight: 500; transition: all 0.2s;
+                    }
+                    .news-filter-btn.active {
+                        border-color: var(--primary); background: var(--primary); color: white;
+                    }
+                    .news-filter-btn:hover:not(.active) {
+                        background: var(--bg-hover);
+                    }
+                </style>
+                <button class="news-filter-btn active" onclick="filterNews('all')">ALL NEWS</button>
+                <button class="news-filter-btn" onclick="filterNews('the-hindu')">THE HINDU</button>
+                <button class="news-filter-btn" onclick="filterNews('pib')">PIB</button>
+                <button class="news-filter-btn" onclick="filterNews('indian-express')">THE INDIAN EXPRESS</button>
+            </div>
+
+            <!-- News Cards Stack -->
+            <div id="news-stack" style="display: flex; flex-direction: column; gap: 15px;">
+                
+                <!-- Article 1 -->
+                <div class="news-card" data-source="pib" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(20, 55, 138, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Education</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">Government launches new initiative for digital education</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">The Ministry of Education has announced a comprehensive plan to integrate digital learning tools in rural schools across the country.</p>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="news-card" data-source="the-hindu" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(46, 139, 87, 0.1); color: #2E8B57; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">UPSC Update</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">UPSC Prelims 2026: Expected changes in exam pattern</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">Experts weigh in on the potential shift towards more analytical questions in the upcoming Civil Services Preliminary Examination.</p>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="news-card" data-source="indian-express" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(255, 140, 0, 0.1); color: #FF8C00; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Economy</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">RBI announces new monetary policy review</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">The Reserve Bank of India has maintained the repo rate, prioritizing inflation control amidst global economic uncertainties.</p>
+                </div>
+
+                <!-- Article 4 -->
+                <div class="news-card" data-source="pib" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(255, 0, 80, 0.1); color: #FF0050; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Environment</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">India achieves renewable energy target ahead of schedule</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">A major milestone in climate action as India crosses the 200GW mark in installed non-fossil fuel capacity.</p>
+                </div>
+
+                <!-- Article 5 -->
+                <div class="news-card" data-source="the-hindu" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(128, 0, 128, 0.1); color: #800080; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Int. Relations</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">G20 Summit concludes with joint declaration on climate</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">Member nations agree on a unified framework for technology transfer and green finance to developing nations.</p>
+                </div>
+
+                <!-- Article 6 -->
+                <div class="news-card" data-source="pib" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(20, 55, 138, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Science & Tech</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">ISRO successfully launches new earth observation satellite</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">The latest EOS mission will significantly enhance agricultural monitoring and disaster management capabilities.</p>
+                </div>
+
+                <!-- Article 7 -->
+                <div class="news-card" data-source="the-hindu" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(46, 139, 87, 0.1); color: #2E8B57; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Polity</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">Supreme Court issues new guidelines on bail provisions</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">A landmark judgment aiming to decongest prisons and uphold the principle of 'bail is rule, jail is exception'.</p>
+                </div>
+
+                <!-- Article 8 -->
+                <div class="news-card" data-source="indian-express" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(255, 140, 0, 0.1); color: #FF8C00; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Social Issues</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">National report highlights improved gender parity in higher education</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">Recent survey data indicates a significant narrowing of the gender gap in STEM enrollments across state universities.</p>
+                </div>
+
+                <!-- Article 9 -->
+                <div class="news-card" data-source="the-hindu" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(20, 55, 138, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Geography</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">New monsoon pattern observed over the Indian subcontinent</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">Meteorological department notes shifting rainfall trends, likely linked to broader climate change phenomena.</p>
+                </div>
+
+                <!-- Article 10 -->
+                <div class="news-card" data-source="pib" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="background: rgba(46, 139, 87, 0.1); color: #2E8B57; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">UPSC Update</span>
+                    </div>
+                    <div style="position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(0,0,0,0.05); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.2rem;">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 style="font-size: 1.15rem; margin-bottom: 10px; color: var(--text-main); line-height: 1.4; padding-right: 50px;">Final results for Civil Services Examination 2025 declared</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5;">The Commission has released the final merit list, with women candidates securing top positions again this year.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function filterNews(source) {
+            // Update active button styling
+            const buttons = document.querySelectorAll('.news-filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter cards
+            const cards = document.querySelectorAll('.news-card');
+            cards.forEach(card => {
+                if (source === 'all' || card.getAttribute('data-source') === source) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Set current date automatically and add click listeners to cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateElement = document.getElementById('dynamic-date');
+            if (dateElement) {
+                const today = new Date();
+                const options = { month: 'short', day: 'numeric' };
+                dateElement.textContent = today.toLocaleDateString('en-US', options);
+            }
+
+            // Make news cards link to the article page
+            const allCards = document.querySelectorAll('.news-card');
+            allCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    window.location.href = 'article.html';
+                });
+            });
+        });
+    </script>
+
+
+
+    <script src="script.js"></script>
+
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>

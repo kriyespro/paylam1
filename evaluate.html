@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate Your Answer | THE BASICS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=34.0">
+    <style>
+        :root {
+            --amber: #f59e0b;
+            --amber-light: rgba(245,158,11,0.1);
+            --green: #10b981;
+            --green-light: rgba(16,185,129,0.08);
+            --blue: #3b82f6;
+            --blue-light: rgba(59,130,246,0.08);
+            --purple: #8b5cf6;
+            --red: #ef4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Outfit', sans-serif; padding-bottom: 80px; }
+
+        .ev-container { max-width: 780px; margin: 0 auto; padding: 20px; }
+
+        /* Header */
+        .ev-header {
+            display: flex; align-items: center; gap: 15px;
+            padding: 18px 0 15px; border-bottom: 1px solid var(--border-color);
+            margin-bottom: 22px;
+        }
+        .ev-back { width:38px; height:38px; border-radius:10px; border:1.5px solid var(--border-color);
+            display:flex; align-items:center; justify-content:center; color:var(--text-main);
+            text-decoration:none; font-size:1rem; transition:all 0.2s; }
+        .ev-back:hover { border-color:var(--amber); color:var(--amber); }
+        .ev-title { font-size:1.25rem; font-weight:800; color:var(--text-main); flex:1; }
+        .ev-title span { color: var(--amber); }
+
+        /* Question box */
+        .question-box {
+            background: var(--card-bg); border-radius: 16px; padding: 22px;
+            border: 1px solid var(--border-color); box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+        .question-box .qb-meta {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;
+        }
+        .qmeta-tag {
+            padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+            font-family: 'Inter', sans-serif;
+        }
+        .qmeta-paper { background: rgba(59,130,246,0.1); color: #2563eb; }
+        .qmeta-subject { background: rgba(139,92,246,0.1); color: #7c3aed; }
+        .qmeta-marks { background: rgba(16,185,129,0.1); color: #059669; }
+        .question-box .q-text-main {
+            font-size: 1.1rem; font-weight: 600; color: var(--text-main);
+            line-height: 1.7; font-family: 'Inter', sans-serif;
+        }
+
+        /* Tabs */
+        .ev-tabs {
+            display: flex; gap: 0; border-bottom: 2px solid var(--border-color);
+            margin-bottom: 22px; overflow-x: auto;
+        }
+        .ev-tab {
+            padding: 12px 22px; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; border: none; background: transparent;
+            color: var(--text-muted); font-family: 'Outfit', sans-serif;
+            border-bottom: 3px solid transparent; margin-bottom: -2px;
+            white-space: nowrap; transition: all 0.2s;
+            display: flex; align-items: center; gap: 7px;
+        }
+        .ev-tab:hover { color: var(--amber); }
+        .ev-tab.active { color: var(--amber); border-bottom-color: var(--amber); background: var(--amber-light); }
+
+        .ev-panel { display: none; }
+        .ev-panel.active { display: block; }
+
+        /* --- WRITE ANSWER PANEL --- */
+        .write-card {
+            background: var(--card-bg); border-radius: 16px; padding: 22px;
+            border: 1px solid var(--border-color); box-shadow: var(--card-shadow);
+            margin-bottom: 18px;
+        }
+        .write-card-title {
+            font-size: 1rem; font-weight: 700; margin-bottom: 14px;
+            color: var(--text-main); display: flex; align-items: center; gap: 8px;
+        }
+        /* Upload area */
+        .upload-zone {
+            border: 2px dashed var(--border-color); border-radius: 14px; padding: 30px;
+            text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 16px;
+            position: relative;
+        }
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--amber); background: var(--amber-light);
+        }
+        .upload-zone input[type="file"] {
+            position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+        }
+        .upload-zone i { font-size: 2.5rem; color: var(--amber); margin-bottom: 10px; display: block; }
+        .upload-zone h4 { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .upload-zone p { font-size: 0.85rem; color: var(--text-muted); font-family: 'Inter', sans-serif; }
+        #uploadPreview { display: none; max-width: 100%; border-radius: 10px; margin-top: 10px; }
+
+        .or-divider {
+            display: flex; align-items: center; gap: 12px;
+            color: var(--text-muted); font-size: 0.9rem; font-weight: 600;
+            margin: 14px 0;
+        }
+        .or-divider::before, .or-divider::after {
+            content: ''; flex: 1; height: 1px; background: var(--border-color);
+        }
+
+        .answer-textarea {
+            width: 100%; min-height: 200px; padding: 16px;
+            border: 1.5px solid var(--border-color); border-radius: 12px;
+            font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.7;
+            resize: vertical; outline: none; transition: border 0.2s;
+            color: var(--text-main); background: white;
+        }
+        .answer-textarea:focus { border-color: var(--amber); box-shadow: 0 0 0 3px var(--amber-light); }
+        .answer-textarea::placeholder { color: #94a3b8; }
+
+        .word-counter {
+            text-align: right; font-size: 0.82rem; font-family: 'Inter', sans-serif;
+            color: var(--text-muted); margin-top: 6px;
+        }
+        .word-counter span { font-weight: 700; color: var(--amber); }
+
+        /* Tips */
+        .writing-tips {
+            background: var(--blue-light); border: 1px solid rgba(59,130,246,0.15);
+            border-radius: 12px; padding: 16px 18px; margin-top: 14px;
+        }
+        .writing-tips-title { font-weight: 700; color: var(--blue); font-size: 0.9rem; margin-bottom: 10px; }
+        .writing-tips ul { padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+        .writing-tips ul li { font-size: 0.88rem; color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.5; }
+
+        /* Submit bar */
+        .submit-bar {
+            display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+        }
+        .submit-bar .btn { flex: 1; justify-content: center; padding: 14px; font-size: 1rem; font-weight: 700; border-radius: 12px; }
+        .btn-submit-main {
+            background: linear-gradient(135deg, #f59e0b, #ef4444); color: white;
+            border: none; cursor: pointer; display: flex; align-items: center;
+            gap: 8px; font-family: 'Outfit', sans-serif;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3); transition: all 0.2s;
+        }
+        .btn-submit-main:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+        .btn-model-quick {
+            background: var(--amber-light); color: var(--amber);
+            border: 1.5px solid rgba(245,158,11,0.3); cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'Outfit', sans-serif; transition: all 0.2s;
+        }
+        .btn-model-quick:hover { background: rgba(245,158,11,0.2); }
+
+        /* --- SELF EVALUATE PANEL --- */
+        .self-eval-intro {
+            background: var(--amber-light); border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 12px; padding: 16px 18px; margin-bottom: 18px;
+            font-size: 0.92rem; color: var(--text-main); font-family: 'Inter', sans-serif;
+            display: flex; align-items: flex-start; gap: 10px;
+        }
+        .self-eval-intro i { color: var(--amber); font-size: 1.2rem; margin-top: 2px; }
+
+        .eval-criteria { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+        .eval-criterion-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 18px; box-shadow: var(--card-shadow);
+        }
+        .ec-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .ec-label { font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+        .ec-max { font-size: 0.82rem; color: var(--text-muted); font-family: 'Inter', sans-serif; font-weight: 600; }
+        .star-row { display: flex; gap: 6px; }
+        .star-btn {
+            width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border-color);
+            background: white; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 0.9rem; font-weight: 700;
+            color: var(--text-muted); font-family: 'Inter', sans-serif; transition: all 0.15s;
+        }
+        .star-btn:hover, .star-btn.selected { border-color: var(--amber); background: var(--amber-light); color: var(--amber); }
+        .ec-desc { font-size: 0.83rem; color: var(--text-muted); font-family: 'Inter', sans-serif; margin-top: 6px; }
+
+        .total-score-box {
+            background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(239,68,68,0.04));
+            border: 2px solid rgba(245,158,11,0.3); border-radius: 14px;
+            padding: 18px 22px; display: flex; align-items: center;
+            justify-content: space-between; margin-bottom: 18px;
+        }
+        .ts-label { font-weight: 700; color: var(--text-main); font-size: 1rem; }
+        .ts-value { font-size: 2rem; font-weight: 800; color: var(--amber); font-family: 'Inter', sans-serif; }
+
+        .notes-area {
+            width: 100%; padding: 14px; border: 1.5px solid var(--border-color);
+            border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 0.95rem;
+            resize: vertical; min-height: 90px; outline: none; margin-bottom: 16px;
+            transition: border 0.2s;
+        }
+        .notes-area:focus { border-color: var(--amber); }
+
+        /* --- MODEL ANSWER PANEL --- */
+        .model-answer-card {
+            background: var(--card-bg); border-radius: 16px;
+            border: 1px solid var(--border-color); box-shadow: var(--card-shadow);
+            overflow: hidden; margin-bottom: 20px;
+        }
+        .ma-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            padding: 18px 22px; color: white;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .ma-header h3 { font-size: 1.1rem; font-weight: 800; }
+        .ma-header .ma-meta { font-size: 0.85rem; opacity: 0.9; margin-top: 3px; }
+
+        .ma-section { padding: 22px; border-bottom: 1px solid var(--border-color); }
+        .ma-section:last-child { border-bottom: none; }
+        .ma-section-title {
+            font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .ma-content { font-family: 'Inter', sans-serif; font-size: 0.97rem; line-height: 1.85; color: #334155; }
+        .ma-content p { margin-bottom: 12px; }
+        .ma-content strong { color: var(--text-main); }
+
+        .key-point-list { display: flex; flex-direction: column; gap: 10px; }
+        .key-point {
+            display: flex; gap: 12px; align-items: flex-start;
+            background: var(--green-light); border: 1px solid rgba(16,185,129,0.15);
+            border-radius: 10px; padding: 12px 14px;
+        }
+        .kp-icon { color: var(--green); font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
+        .kp-text { font-size: 0.92rem; font-family: 'Inter', sans-serif; color: #1e293b; line-height: 1.6; }
+        .kp-text strong { color: var(--green); }
+
+        .structure-steps { display: flex; flex-direction: column; gap: 10px; }
+        .structure-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: var(--blue-light); border: 1px solid rgba(59,130,246,0.15);
+            border-radius: 10px; padding: 13px 15px;
+        }
+        .ss-num {
+            width: 28px; height: 28px; border-radius: 8px; background: var(--blue);
+            color: white; font-size: 0.8rem; font-weight: 800; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Inter', sans-serif;
+        }
+        .ss-content { flex: 1; }
+        .ss-label { font-weight: 700; font-size: 0.88rem; color: var(--blue); margin-bottom: 4px; }
+        .ss-desc { font-size: 0.88rem; color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; }
+
+        .tags-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .ma-tag {
+            padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700;
+            font-family: 'Inter', sans-serif;
+        }
+        .ma-tag-amber { background: var(--amber-light); color: #d97706; }
+        .ma-tag-purple { background: rgba(139,92,246,0.1); color: #7c3aed; }
+        .ma-tag-blue { background: var(--blue-light); color: var(--blue); }
+
+        .score-hint-box {
+            background: linear-gradient(135deg, rgba(16,185,129,0.05), rgba(59,130,246,0.03));
+            border: 1px solid rgba(16,185,129,0.2); border-radius: 12px; padding: 16px 18px;
+        }
+        .score-hint-title { font-weight: 700; color: var(--green); font-size: 0.88rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .score-hints { display: flex; flex-direction: column; gap: 7px; }
+        .sh-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-family: 'Inter', sans-serif; }
+        .sh-item i { color: var(--green); width: 14px; }
+
+        @media (max-width: 600px) {
+            .ev-tab { padding: 10px 14px; font-size: 0.85rem; }
+            .submit-bar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="The Basics Logo" class="logo-image">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="mains.html" class="active"><i class="fas fa-pen-nib"></i> Mains</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="ev-container">
+
+        <!-- Header -->
+        <div class="ev-header">
+            <a href="daily-mains.html" class="ev-back"><i class="fas fa-arrow-left"></i></a>
+            <div class="ev-title"><span>Evaluate</span> Your Answer</div>
+        </div>
+
+        <!-- Question Box -->
+        <div class="question-box">
+            <div class="qb-meta">
+                <span class="qmeta-tag qmeta-paper">GS 2</span>
+                <span class="qmeta-tag qmeta-subject">Indian Polity</span>
+                <span class="qmeta-tag qmeta-marks">⭐ 15 Marks</span>
+            </div>
+            <div class="q-text-main">
+                "The basic structure doctrine has protected the Indian Constitution from losing its essence, but it has also led to judicial overreach." Critically analyze this statement.
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="ev-tabs">
+            <button class="ev-tab active" onclick="switchTab('write')" id="tab-write">
+                <i class="fas fa-pen"></i> Write Answer
+            </button>
+            <button class="ev-tab" onclick="switchTab('evaluate')" id="tab-evaluate">
+                <i class="fas fa-star"></i> Self Evaluate
+            </button>
+            <button class="ev-tab" onclick="switchTab('model')" id="tab-model">
+                <i class="fas fa-graduation-cap"></i> Model Answer
+            </button>
+        </div>
+
+        <!-- ========= WRITE ANSWER PANEL ========= -->
+        <div class="ev-panel active" id="panel-write">
+            <div class="write-card">
+                <div class="write-card-title"><i class="fas fa-camera" style="color:var(--amber);"></i> Upload Handwritten Answer</div>
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" accept="image/*,application/pdf" onchange="handleUpload(event)">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h4>Click or drag to upload</h4>
+                    <p>Supports JPG, PNG, PDF &nbsp;|&nbsp; Max 10MB</p>
+                    <img id="uploadPreview" src="" alt="Preview">
+                </div>
+                <div class="or-divider">OR type your answer</div>
+                <textarea class="answer-textarea" id="answerText" placeholder="Write your answer here...&#10;&#10;Structure Tip: Introduction → Body (with headings) → Conclusion" oninput="countWords()"></textarea>
+                <div class="word-counter">Words: <span id="wc">0</span> &nbsp;|&nbsp; Recommended: 200–250 words for 15 marks</div>
+
+                <div class="writing-tips">
+                    <div class="writing-tips-title"><i class="fas fa-lightbulb"></i> Quick Writing Tips</div>
+                    <ul>
+                        <li><strong>Introduction:</strong> Define the concept + give context (2–3 lines)</li>
+                        <li><strong>Body:</strong> Arguments in favor → Arguments against → Balanced view</li>
+                        <li><strong>Conclusion:</strong> Way forward / balanced conclusion (2–3 lines)</li>
+                        <li>Use data, examples, and landmark cases for GS2 Polity questions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="submit-bar">
+                <button class="btn btn-submit-main" onclick="submitAnswer()">
+                    <i class="fas fa-paper-plane"></i> Submit &amp; Evaluate
+                </button>
+                <button class="btn btn-model-quick" onclick="switchTab('model')">
+                    <i class="fas fa-book-open"></i> View Model Answer
+                </button>
+            </div>
+        </div>
+
+        <!-- ========= SELF EVALUATE PANEL ========= -->
+        <div class="ev-panel" id="panel-evaluate">
+
+            <div class="self-eval-intro">
+                <i class="fas fa-info-circle"></i>
+                <span>Compare your answer with the Model Answer and honestly rate each criterion. This helps you identify gaps and improve your writing.</span>
+            </div>
+
+            <div class="eval-criteria">
+
+                <div class="eval-criterion-card">
+                    <div class="ec-header">
+                        <div class="ec-label"><i class="fas fa-brain" style="color:#3b82f6;"></i> Content &amp; Coverage</div>
+                        <div class="ec-max">Max: 6 marks</div>
+                    </div>
+                    <div class="star-row" id="stars-content"></div>
+                    <div class="ec-desc">Did you cover both sides — protection of basic structure AND judicial overreach argument? Key cases mentioned?</div>
+                </div>
+
+                <div class="eval-criterion-card">
+                    <div class="ec-header">
+                        <div class="ec-label"><i class="fas fa-list-ul" style="color:#8b5cf6;"></i> Structure &amp; Flow</div>
+                        <div class="ec-max">Max: 4 marks</div>
+                    </div>
+                    <div class="star-row" id="stars-structure"></div>
+                    <div class="ec-desc">Clear Intro → Body with headings/sub-points → Balanced conclusion? Logical flow between paragraphs?</div>
+                </div>
+
+                <div class="eval-criterion-card">
+                    <div class="ec-header">
+                        <div class="ec-label"><i class="fas fa-quote-right" style="color:#10b981;"></i> Examples &amp; Evidence</div>
+                        <div class="ec-max">Max: 3 marks</div>
+                    </div>
+                    <div class="star-row" id="stars-examples"></div>
+                    <div class="ec-desc">Kesavananda Bharati case, NJAC judgment, Minerva Mills? Constitutional provisions cited?</div>
+                </div>
+
+                <div class="eval-criterion-card">
+                    <div class="ec-header">
+                        <div class="ec-label"><i class="fas fa-pen-fancy" style="color:#f59e0b;"></i> Language &amp; Presentation</div>
+                        <div class="ec-max">Max: 2 marks</div>
+                    </div>
+                    <div class="star-row" id="stars-language"></div>
+                    <div class="ec-desc">Formal language, minimal errors, readable handwriting / clean formatting?</div>
+                </div>
+
+            </div>
+
+            <div class="total-score-box">
+                <div class="ts-label">🎯 Your Estimated Score</div>
+                <div class="ts-value"><span id="totalScore">0</span> / 15</div>
+            </div>
+
+            <textarea class="notes-area" placeholder="Your self-assessment notes... (What did you miss? What was good? What to improve next time?)"></textarea>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <button class="btn btn-submit-main" style="flex:1;" onclick="switchTab('model')">
+                    <i class="fas fa-graduation-cap"></i> View Full Model Answer
+                </button>
+                <button class="btn btn-model-quick" style="flex:1;" onclick="switchTab('write')">
+                    <i class="fas fa-redo"></i> Rewrite Answer
+                </button>
+            </div>
+        </div>
+
+        <!-- ========= MODEL ANSWER PANEL ========= -->
+        <div class="ev-panel" id="panel-model">
+
+            <div class="model-answer-card">
+                <!-- Header -->
+                <div class="ma-header">
+                    <div>
+                        <h3><i class="fas fa-graduation-cap"></i> &nbsp;Model Answer</h3>
+                        <div class="ma-meta">Basic Structure Doctrine &nbsp;|&nbsp; GS 2 – Indian Polity &nbsp;|&nbsp; 15 Marks &nbsp;|&nbsp; ~200-250 words</div>
+                    </div>
+                </div>
+
+                <!-- Introduction -->
+                <div class="ma-section">
+                    <div class="ma-section-title" style="color:#3b82f6;"><i class="fas fa-play-circle" style="color:#3b82f6;"></i> Introduction</div>
+                    <div class="ma-content">
+                        <p>The <strong>Basic Structure Doctrine</strong>, established in the landmark <strong>Kesavananda Bharati v. State of Kerala (1973)</strong> case, holds that while Parliament can amend the Constitution under Article 368, it cannot alter or destroy its 'basic structure' — the fundamental features that give the Constitution its identity.</p>
+                        <p>This doctrine has been both a guardian of constitutional values and a subject of debate regarding the balance of power between the judiciary and legislature.</p>
+                    </div>
+                </div>
+
+                <!-- Arguments in Favour -->
+                <div class="ma-section">
+                    <div class="ma-section-title" style="color:#10b981;"><i class="fas fa-shield-alt" style="color:#10b981;"></i> Protection of Constitutional Essence</div>
+                    <div class="key-point-list">
+                        <div class="key-point">
+                            <i class="fas fa-check-circle kp-icon"></i>
+                            <div class="kp-text"><strong>Safeguard against majoritarianism:</strong> Prevents elected governments from making sweeping amendments that could fundamentally alter the democratic character of India (e.g., preventing one-party rule or erosion of federalism).</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="fas fa-check-circle kp-icon"></i>
+                            <div class="kp-text"><strong>Preserving fundamental rights:</strong> Struck down 39th Amendment (1975) that placed the PM's election beyond judicial review — protecting the right to equality and free elections as basic features.</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="fas fa-check-circle kp-icon"></i>
+                            <div class="kp-text"><strong>NJAC Judgment (2015):</strong> Supreme Court struck down the National Judicial Appointments Commission as violating the independence of judiciary — a core basic structure element.</div>
+                        </div>
+                        <div class="key-point">
+                            <i class="fas fa-check-circle kp-icon"></i>
+                            <div class="kp-text"><strong>Federalism preserved:</strong> Minerva Mills (1980) reaffirmed limited amending power, preventing concentration of power at Centre at the expense of States.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Judicial Overreach -->
+                <div class="ma-section">
+                    <div class="ma-section-title" style="color:#ef4444;"><i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Criticism: Judicial Overreach Concerns</div>
+                    <div class="key-point-list">
+                        <div class="key-point" style="background:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.15);">
+                            <i class="fas fa-times-circle kp-icon" style="color:#ef4444;"></i>
+                            <div class="kp-text"><strong>Unelected body over Parliament:</strong> Critics argue that the SC — an unelected institution — overrides decisions of the elected legislature, undermining parliamentary sovereignty.</div>
+                        </div>
+                        <div class="key-point" style="background:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.15);">
+                            <i class="fas fa-times-circle kp-icon" style="color:#ef4444;"></i>
+                            <div class="kp-text"><strong>Undefined scope:</strong> 'Basic structure' has no exhaustive list in the Constitution — giving courts wide discretionary power that can lead to subjective interpretations.</div>
+                        </div>
+                        <div class="key-point" style="background:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.15);">
+                            <i class="fas fa-times-circle kp-icon" style="color:#ef4444;"></i>
+                            <div class="kp-text"><strong>NJAC controversy:</strong> Parliament unanimously passed the NJAC amendment — its nullification was seen by many as the judiciary protecting its own appointment process.</div>
+                        </div>
+                        <div class="key-point" style="background:rgba(239,68,68,0.04); border-color:rgba(239,68,68,0.15);">
+                            <i class="fas fa-times-circle kp-icon" style="color:#ef4444;"></i>
+                            <div class="kp-text"><strong>Democratic deficit:</strong> In a democracy, constitutional changes should ultimately reflect the popular will through elected representatives, not judicial veto.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Balanced View / Way Forward -->
+                <div class="ma-section">
+                    <div class="ma-section-title" style="color:#8b5cf6;"><i class="fas fa-balance-scale" style="color:#8b5cf6;"></i> Balanced View &amp; Way Forward</div>
+                    <div class="structure-steps">
+                        <div class="structure-step">
+                            <div class="ss-num">1</div>
+                            <div class="ss-content">
+                                <div class="ss-label">Codification of Basic Structure</div>
+                                <div class="ss-desc">Parliament and judiciary should work towards identifying and codifying the 'basic features' through a constitutional amendment commission, bringing clarity and reducing judicial subjectivity.</div>
+                            </div>
+                        </div>
+                        <div class="structure-step">
+                            <div class="ss-num">2</div>
+                            <div class="ss-content">
+                                <div class="ss-label">Judicial Restraint</div>
+                                <div class="ss-desc">The judiciary must exercise restraint and avoid expanding the doctrine beyond its original intent — focusing on core constitutional values rather than policy matters.</div>
+                            </div>
+                        </div>
+                        <div class="structure-step">
+                            <div class="ss-num">3</div>
+                            <div class="ss-content">
+                                <div class="ss-label">Strengthening Collegium Transparency</div>
+                                <div class="ss-desc">The NJAC debate highlighted the need for a more transparent and accountable judicial appointment process while still preserving judicial independence.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conclusion -->
+                <div class="ma-section">
+                    <div class="ma-section-title" style="color:#f59e0b;"><i class="fas fa-flag-checkered" style="color:#f59e0b;"></i> Conclusion</div>
+                    <div class="ma-content">
+                        <p>The Basic Structure Doctrine is an <strong>essential constitutional safety net</strong> that prevents the Constitution from being hollowed out by transient parliamentary majorities. While concerns about judicial overreach are valid, the doctrine's existence has ensured that India remains a constitutional democracy with fundamental values intact.</p>
+                        <p>The need of the hour is a <strong>collaborative constitutional culture</strong> where Parliament, Executive, and Judiciary each respect their domains — with the doctrine serving as the ultimate guardian, not an instrument of judicial supremacy.</p>
+                    </div>
+                </div>
+
+                <!-- Score Hints -->
+                <div class="ma-section">
+                    <div class="score-hint-box">
+                        <div class="score-hint-title"><i class="fas fa-star"></i> Score Criteria (15 Marks)</div>
+                        <div class="score-hints">
+                            <div class="sh-item"><i class="fas fa-circle"></i> <strong>6 marks</strong> — Content: Both sides covered, key cases (Kesavananda, NJAC, Minerva Mills)</div>
+                            <div class="sh-item"><i class="fas fa-circle"></i> <strong>4 marks</strong> — Structure: Clear Intro-Body-Conclusion, sub-headings used</div>
+                            <div class="sh-item"><i class="fas fa-circle"></i> <strong>3 marks</strong> — Examples: Specific cases, Articles, amendments cited</div>
+                            <div class="sh-item"><i class="fas fa-circle"></i> <strong>2 marks</strong> — Language: Formal, clear, minimal errors</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="ma-section" style="padding-top:16px; padding-bottom:16px;">
+                    <div class="tags-row">
+                        <span class="ma-tag ma-tag-amber">Basic Structure</span>
+                        <span class="ma-tag ma-tag-blue">Kesavananda Bharati</span>
+                        <span class="ma-tag ma-tag-purple">NJAC 2015</span>
+                        <span class="ma-tag ma-tag-amber">Minerva Mills</span>
+                        <span class="ma-tag ma-tag-blue">Article 368</span>
+                        <span class="ma-tag ma-tag-purple">Judicial Review</span>
+                        <span class="ma-tag ma-tag-amber">GS 2 Polity</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <button class="btn btn-submit-main" style="flex:1;" onclick="switchTab('evaluate')">
+                    <i class="fas fa-star"></i> Go to Self Evaluation
+                </button>
+                <button class="btn btn-model-quick" style="flex:1;" onclick="switchTab('write')">
+                    <i class="fas fa-pen"></i> Rewrite Answer
+                </button>
+            </div>
+
+        </div><!-- end model panel -->
+
+    </div><!-- end container -->
+
+    <!-- Floating Back -->
+    <a href="daily-mains.html" class="floating-back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+
+    <script>
+        // ---- Tab switching ----
+        function switchTab(tab) {
+            document.querySelectorAll('.ev-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ev-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById('panel-' + tab).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ---- Word counter ----
+        function countWords() {
+            const text = document.getElementById('answerText').value.trim();
+            const count = text ? text.split(/\s+/).length : 0;
+            document.getElementById('wc').textContent = count;
+        }
+
+        // ---- Upload preview ----
+        function handleUpload(e) {
+            const file = e.target.files[0];
+            if (!file || !file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const preview = document.getElementById('uploadPreview');
+                preview.src = ev.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ---- Submit → go to evaluate ----
+        function submitAnswer() {
+            const text = document.getElementById('answerText').value.trim();
+            if (!text && !document.getElementById('uploadPreview').src) {
+                alert('Please write or upload your answer first!');
+                return;
+            }
+            switchTab('evaluate');
+        }
+
+        // ---- Star ratings ----
+        const criteria = [
+            { id: 'content', max: 6 },
+            { id: 'structure', max: 4 },
+            { id: 'examples', max: 3 },
+            { id: 'language', max: 2 }
+        ];
+        const scores = { content: 0, structure: 0, examples: 0, language: 0 };
+
+        criteria.forEach(c => {
+            const container = document.getElementById('stars-' + c.id);
+            for (let i = 1; i <= c.max; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'star-btn';
+                btn.textContent = i;
+                btn.dataset.val = i;
+                btn.onclick = function () {
+                    scores[c.id] = i;
+                    // Highlight up to selected
+                    container.querySelectorAll('.star-btn').forEach(b => {
+                        b.classList.toggle('selected', parseInt(b.dataset.val) <= i);
+                    });
+                    updateTotal();
+                };
+                container.appendChild(btn);
+            }
+        });
+
+        function updateTotal() {
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            document.getElementById('totalScore').textContent = total;
+        }
+    </script>
+    
+    <!-- Floating Back Button -->
+    <a href="javascript:history.back()" class="floating-back-btn"><i class="fas fa-arrow-left"></i> Back</a>
+</body>
+</html>
